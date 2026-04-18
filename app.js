@@ -89,7 +89,7 @@ async function handleSubmit(e, emailInputId, nameInputId = null) {
 }
 
 if (topForm) {
-    topForm.addEventListener('submit', (e) => handleSubmit(e, 'top-email'));
+    topForm.addEventListener('submit', (e) => handleSubmit(e, 'top-email', 'top-name'));
 }
 
 if (bottomForm) {
