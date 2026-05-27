@@ -1,0 +1,178 @@
+/* ==========================================================
+   OUTDOOR — Thank You Page
+   ========================================================== */
+
+.thankyou-section {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: calc(var(--nav-h) + var(--s7)) clamp(20px, 5vw, 60px) var(--s9);
+}
+
+/* Green celebratory glow — radiates from top */
+.ty-glow {
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80vw;
+  height: 80vw;
+  max-width: 900px;
+  max-height: 900px;
+  background: radial-gradient(circle, rgba(0,194,122,0.14) 0%, transparent 65%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Content column */
+.ty-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s5);
+}
+
+/* ── Badge ── */
+.ty-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-tint);
+  border: 1px solid rgba(0,194,122,0.25);
+  padding: 6px 14px;
+  border-radius: var(--r-full);
+}
+.ty-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  background: var(--green);
+  color: #000;
+  border-radius: 50%;
+  font-size: 9px;
+  font-weight: 900;
+  flex-shrink: 0;
+}
+
+/* ── Headline ── */
+.ty-headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  margin: 0;
+}
+.ty-greeting {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 7vw, 72px);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* ── Position block ── */
+.ty-position {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s2);
+  margin: var(--s3) 0;
+}
+.ty-pos-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+}
+.ty-pos-num {
+  display: block;
+  font-size: clamp(64px, 14vw, 128px);
+  font-weight: 900;
+  color: var(--green);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-family: var(--font);
+  /* Subtle glow on the big number */
+  text-shadow: 0 0 60px rgba(0,194,122,0.30);
+}
+.ty-pos-label {
+  font-size: 14px;
+  color: var(--text-body);
+  letter-spacing: 0.01em;
+}
+/* Hide position block when no data */
+.ty-position.hidden { display: none; }
+
+/* ── Body copy ── */
+.ty-message {
+  font-size: 15px;
+  color: var(--text-body);
+  line-height: 1.75;
+  max-width: 420px;
+}
+
+/* ── Back home CTA ── */
+.ty-cta {
+  margin-top: var(--s2);
+}
+.ty-cta:hover { transform: translateY(-2px); }
+
+/* ── Share nudge ── */
+.ty-share-nudge {
+  font-size: 12px;
+  color: var(--text-hint);
+  font-style: italic;
+  margin-top: calc(-1 * var(--s2));
+}
+
+/* ── Decorative big position number ── */
+.ty-bignum {
+  position: fixed;
+  bottom: -4%;
+  right: -1%;
+  font-size: clamp(140px, 22vw, 280px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: rgba(0,194,122,0.05);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ── Entry animations ── */
+@keyframes tyFadeUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ty-badge        { animation: tyFadeUp 0.55s var(--ease-out) 80ms  both; }
+.ty-headline     { animation: tyFadeUp 0.55s var(--ease-out) 200ms both; }
+.ty-position     { animation: tyFadeUp 0.65s var(--ease-out) 360ms both; }
+.ty-message      { animation: tyFadeUp 0.55s var(--ease-out) 500ms both; }
+.ty-cta          { animation: tyFadeUp 0.55s var(--ease-out) 600ms both; }
+.ty-share-nudge  { animation: tyFadeUp 0.55s var(--ease-out) 700ms both; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .ty-pos-num { font-size: clamp(56px, 18vw, 96px); }
+  .ty-bignum  { display: none; }
+}

@@ -1,0 +1,82 @@
+/* ==========================================================
+   OUTDOOR — Design Tokens
+   All CSS custom properties. Import first.
+   ========================================================== */
+
+:root {
+  /* --- Dark mode (default) --- */
+  --bg:        #0A0A0A;
+  --layer:     #141414;
+  --surface:   #1C1C1C;
+  --hover:     #252525;
+  --border:    #1E1E1E;
+
+  --text-primary: #F2EDC8;
+  --text-body:    #808080;
+  --text-hint:    #444444;
+
+  /* --- Accent & semantic --- */
+  --orange:       #FF4E00;
+  --orange-tint:  rgba(255, 78, 0, 0.10);
+  --orange-glow:  rgba(255, 78, 0, 0.18);
+  --green:        #00C27A;
+  --green-tint:   rgba(0, 194, 122, 0.10);
+  --red:          #FF3B3B;
+  --blue:         #1EAEFF;
+  --blue-tint:    rgba(30, 174, 255, 0.10);
+  --gold:         #FFB300;
+
+  /* --- Typography --- */
+  --font:       'FK Grotesk', 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+
+  /* --- Spacing scale (base 4) --- */
+  --s1:  4px;
+  --s2:  8px;
+  --s3:  12px;
+  --s4:  16px;
+  --s5:  24px;
+  --s6:  32px;
+  --s7:  48px;
+  --s8:  64px;
+  --s9:  96px;
+  --s10: 128px;
+
+  /* --- Radii --- */
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:   16px;
+  --r-xl:   24px;
+  --r-full: 9999px;
+
+  /* --- Easing --- */
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snappy: cubic-bezier(0.83, 0, 0.17, 1);
+
+  /* --- Transitions --- */
+  --t-fast:   150ms var(--ease-out);
+  --t-base:   300ms var(--ease-out);
+  --t-slow:   600ms var(--ease-out);
+  --t-slower: 900ms var(--ease-out);
+
+  /* --- Layout --- */
+  --max-w: 1160px;
+  --nav-h: 68px;
+  --section-gap: clamp(80px, 10vw, 140px);
+}
+
+/* Light mode overrides */
+[data-theme="light"] {
+  --bg:      #F5F0E8;
+  --layer:   #EDE7DC;
+  --surface: #FFFFFF;
+  --hover:   #EDE7DC;
+  --border:  #E0D4CE;
+
+  --text-primary: #0A0A2A;
+  --text-body:    #333333;
+  --text-hint:    #BBBBBB;
+
+  --orange-glow: rgba(255, 78, 0, 0.12);
+}

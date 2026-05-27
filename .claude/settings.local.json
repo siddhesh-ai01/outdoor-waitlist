@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:fourmula.ai)",
+      "Bash(ffprobe -v quiet -show_streams -select_streams v:0 runningAnimation.webm)",
+      "Bash(findstr /i \"pix_fmt alpha codec_tag_string\")"
+    ]
+  }
+}

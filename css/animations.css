@@ -1,0 +1,709 @@
+/* ==========================================================
+   OUTDOOR — Animations & Section Styles
+   Hero · Value Prop · Features · Phases · Waitlist Embed
+   ========================================================== */
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--nav-h);
+  padding-bottom: var(--s9);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate; /* create a stacking context so child z-indexes are self-contained */
+}
+
+/* Full-section background dot matrix canvas */
+#hero-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 55vw;
+  height: 55vw;
+  background: radial-gradient(circle, var(--orange-glow) 0%, transparent 65%);
+  pointer-events: none;
+  border-radius: 50%;
+  z-index: 1; /* orange glow sits above the bg canvas */
+}
+.hero-content {
+  position: relative;
+  z-index: 2; /* content floats above both the bg canvas and the glow */
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 60px);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s8);
+  align-items: center;
+}
+.hero-text { position: relative; z-index: 1; }
+.hero-headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  margin-bottom: var(--s5);
+}
+.headline-outdoor {
+  font-size: clamp(72px, 11vw, 130px);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+.headline-tagline {
+  font-family: var(--font-serif);
+  font-size: clamp(17px, 2.1vw, 24px);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--text-body);
+  letter-spacing: -0.01em;
+  line-height: 1.45;
+  max-width: 420px;
+}
+.hero-sub {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin-bottom: var(--s6);
+}
+.dot-sep {
+  margin-inline: 10px;
+  color: var(--orange);
+}
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  flex-wrap: wrap;
+}
+.hero-badge {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--orange);
+  background: var(--orange-tint);
+  border: 1px solid rgba(255, 78, 0, 0.2);
+  padding: 5px 12px;
+  border-radius: var(--r-full);
+}
+
+/* Live people-waiting badge (replaces static "Launching" badge) */
+.hero-live-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--green);
+  background: rgba(0, 194, 122, 0.10);
+  border: 1px solid rgba(0, 194, 122, 0.25);
+  padding: 5px 14px;
+  border-radius: var(--r-full);
+  white-space: nowrap;
+}
+.hero-live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+  animation: liveDotPulse 2s ease-in-out infinite;
+}
+@keyframes liveDotPulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* Hero canvas */
+.hero-canvas-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s4);
+  position: relative;
+}
+#matrix-canvas {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: var(--r-lg);
+}
+.canvas-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  transition: opacity var(--t-slow);
+  height: 16px;
+}
+
+/* Hero load animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-text .label         { animation: fadeUp var(--t-slow) var(--ease-out) 100ms both; }
+.headline-outdoor          { animation: fadeUp var(--t-slow) var(--ease-out) 220ms both; }
+.headline-tagline          { animation: fadeUp var(--t-slow) var(--ease-out) 340ms both; }
+.hero-sub                  { animation: fadeUp var(--t-slow) var(--ease-out) 420ms both; }
+.hero-cta-group            { animation: fadeUp var(--t-slow) var(--ease-out) 500ms both; }
+.hero-canvas-wrap          { animation: fadeUp var(--t-slower) var(--ease-out) 300ms both; }
+
+/* ---- VALUE PROP ---- */
+.value-prop {
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+}
+.value-inner {
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 60px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s8);
+  align-items: center;
+}
+.value-headline {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5vw, 60px);
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--s4);
+}
+.value-sub {
+  font-size: clamp(20px, 3vw, 32px);
+  font-weight: 900;
+  color: var(--orange);
+  letter-spacing: -0.02em;
+  margin-bottom: var(--s3);
+}
+.value-body {
+  font-size: 16px;
+  color: var(--text-hint);
+  font-weight: 400;
+}
+
+/* Section 2 animation video */
+.value-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  mix-blend-mode: screen;   /* black gif bg disappears on dark page, orange stays vivid */
+}
+
+/*
+ * Light mode: GIF has a baked-in black background (GIF 1-bit transparency
+ * limitation). `mix-blend-mode: screen` would wash out the orange on a light
+ * page, so instead we match the container to the GIF's black background and
+ * style it as an intentional dark showcase card.
+ */
+[data-theme="light"] .value-visual {
+  mix-blend-mode: normal;
+  background: #0a0a0a;                      /* matches GIF's black bg exactly */
+  border-radius: var(--r-xl);
+  padding: var(--s4);
+  box-shadow:
+    0 0 0 1px rgba(255, 78, 0, 0.20),        /* faint orange brand ring */
+    0 32px 80px rgba(0, 0, 0, 0.18),          /* depth shadow on warm bg */
+    0 0 60px rgba(255, 78, 0, 0.06);          /* very subtle orange ambient glow */
+}
+
+.plays-video {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  background: transparent;
+  display: block;
+  border-radius: var(--r-lg); /* slightly smaller radius inside the card */
+}
+
+/* ---- FEATURES (Fourmula-style full-screen panel stack) ---- */
+
+/* The track is a normal-flow container — no sticky, no JS needed */
+.panel-track {
+  position: relative;
+}
+
+/* Each panel fills the viewport, sticks at top, and stacks in z-index order.
+   JS applies per-panel depth transforms on scroll (scale + translateY). */
+.feature-panel {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  background: var(--panel-gradient);
+  overflow: hidden;
+  will-change: transform;     /* hint to browser to promote to compositor layer */
+  transform-origin: 50% 50%;  /* scale from center — cards recede/advance uniformly */
+}
+
+/* Z-index stacking: later panels sit on top of earlier ones */
+.feature-panel:nth-child(1) { z-index: 1; }
+.feature-panel:nth-child(2) { z-index: 2; }
+.feature-panel:nth-child(3) { z-index: 3; }
+.feature-panel:nth-child(4) { z-index: 4; }
+
+/* Content grid: left column (step label + headline + bullets) | right column (body + CTA)
+   Uniform padding — no diagonal offset needed */
+.panel-inner {
+  position: relative;
+  z-index: 2;
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding: clamp(80px, 10vw, 140px) clamp(20px, 5vw, 60px);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 80px);
+  align-items: start;
+}
+
+/* Step label */
+.panel-step-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: var(--s5);
+}
+
+/* Headline */
+.panel-headline {
+  font-size: clamp(40px, 5.5vw, 78px);
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+  margin-bottom: var(--s7);
+}
+
+/* Bullet list */
+.panel-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+.panel-bullet {}
+.bullet-title {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--panel-color);
+  margin-bottom: var(--s2);
+}
+.bullet-body {
+  display: block;
+  font-size: clamp(13px, 1.4vw, 15px);
+  color: rgba(255,255,255,0.60);
+  line-height: 1.65;
+}
+
+/* Right column: body copy + CTA */
+.panel-bottom {
+  padding-top: clamp(80px, 8vw, 120px); /* visually align with headline level */
+}
+.panel-body {
+  font-size: clamp(14px, 1.5vw, 17px);
+  color: rgba(255,255,255,0.72);
+  line-height: 1.75;
+  margin-bottom: var(--s7);
+}
+.btn-panel {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(255,255,255,0.10);
+  border: 1px solid rgba(255,255,255,0.22);
+  padding: 12px 22px;
+  border-radius: var(--r-full);
+  text-decoration: none;
+  transition: background var(--t-fast), border-color var(--t-fast), transform var(--t-fast);
+}
+.btn-panel:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.4);
+  transform: translateX(3px);
+}
+
+/* Giant step number — decorative, bottom-right */
+.panel-bignum {
+  position: absolute;
+  bottom: -4%;
+  right: 2%;
+  font-size: clamp(140px, 20vw, 260px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: rgba(255,255,255,0.05);
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+}
+
+/* Short code tag — top-right corner */
+.panel-code {
+  position: absolute;
+  top: clamp(18px, 3.5vw, 40px);
+  right: clamp(18px, 3.5vw, 40px);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.20);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ---- PHASES (animated timeline) ---- */
+.phases-section {
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+}
+.phases-inner {
+  max-width: var(--max-w);
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 60px);
+}
+.phases-header { margin-bottom: var(--s9); }
+.phases-header h2 {
+  font-family: var(--font-serif);
+  letter-spacing: -0.025em;
+}
+
+/* Timeline container (holds the connector line + nodes) */
+.phases-track-container { position: relative; }
+
+/* Animated connector line that "draws" left-to-right */
+.phases-connector-line {
+  position: absolute;
+  top: 8px; /* sits at dot mid-point */
+  left: calc(8px + 0%);
+  right: 0;
+  height: 2px;
+  background: var(--border);
+  overflow: hidden;
+  pointer-events: none;
+}
+.phases-connector-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(to right, var(--green), var(--blue), var(--gold));
+  transition: width 1400ms var(--ease-out) 200ms;
+}
+.phases-track-container.visible .phases-connector-fill { width: 100%; }
+
+/* Phase nodes flex row */
+.phases-nodes {
+  display: flex;
+  gap: 0;
+}
+.phase-node {
+  flex: 1;
+  padding-right: var(--s7);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity var(--t-slow), transform var(--t-slow);
+}
+.phase-node:last-child { padding-right: 0; }
+.phase-node.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.phase-node[data-phase="2"] { transition-delay: 180ms; }
+.phase-node[data-phase="3"] { transition-delay: 360ms; }
+
+/* Dot */
+.phase-dot-wrap {
+  position: relative;
+  width: 16px; height: 16px;
+  margin-bottom: var(--s5);
+  z-index: 1;
+}
+.phase-dot {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  position: relative; z-index: 1;
+}
+.phase-dot--green { background: var(--green); box-shadow: 0 0 0 4px rgba(0,194,122,0.15); }
+.phase-dot--blue  { background: var(--blue);  box-shadow: 0 0 0 4px rgba(30,174,255,0.15); }
+.phase-dot--gold  { background: var(--gold);  box-shadow: 0 0 0 4px rgba(255,179,0,0.15); }
+
+/* Pulsing ring on the active (Phase 1) dot */
+.phase-pulse-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--green);
+  opacity: 0;
+  animation: phasePulse 2.2s ease-out infinite;
+}
+@keyframes phasePulse {
+  0%   { transform: translate(-50%,-50%) scale(0.4); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) scale(2);   opacity: 0; }
+}
+
+/* Status badge */
+.phase-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: var(--r-full);
+  margin-bottom: var(--s4);
+}
+.phase-badge--green {
+  color: var(--green);
+  background: var(--green-tint);
+  border: 1px solid rgba(0,194,122,0.25);
+}
+.phase-badge--blue {
+  color: var(--blue);
+  background: var(--blue-tint);
+  border: 1px solid rgba(30,174,255,0.25);
+}
+.phase-badge--gold {
+  color: var(--gold);
+  background: rgba(255,179,0,0.08);
+  border: 1px solid rgba(255,179,0,0.25);
+}
+
+/* Phase card text */
+.phase-tag {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-hint);
+  margin-bottom: var(--s3);
+}
+.phase-name {
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 900;
+  color: var(--text-primary);
+  letter-spacing: -0.025em;
+  margin-bottom: var(--s4);
+  line-height: 1.1;
+}
+.phase-desc {
+  font-size: 14px;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+/* ---- WAITLIST EMBED ---- */
+.waitlist-embed {
+  padding: var(--section-gap) 0;
+  border-top: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.waitlist-embed::before {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60vw;
+  height: 60vw;
+  background: radial-gradient(circle, var(--orange-glow) 0%, transparent 60%);
+  pointer-events: none;
+}
+.waitlist-embed-inner {
+  max-width: 640px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 60px);
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.waitlist-embed-inner h2 {
+  margin-bottom: var(--s5);
+}
+.waitlist-count-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  margin-bottom: var(--s7);
+  font-size: 14px;
+  color: var(--text-hint);
+}
+.count-num {
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--green);  /* green = community/social metric */
+  letter-spacing: -0.02em;
+}
+
+/* Form */
+.waitlist-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  align-items: stretch;
+}
+.form-group { position: relative; }
+.waitlist-form input {
+  width: 100%;
+  padding: 14px 18px;
+  background: var(--layer);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  color: var(--text-primary);
+  font-size: 15px;
+  outline: none;
+  transition: border-color var(--t-fast), background var(--t-fast);
+}
+.waitlist-form input::placeholder { color: var(--text-hint); }
+.waitlist-form input:focus {
+  border-color: var(--orange);
+  background: var(--surface);
+}
+.btn-submit {
+  width: 100%;
+  padding: 16px 24px;
+  font-size: 15px;
+  justify-content: center;
+  border-radius: var(--r-md);
+}
+.btn-arrow {
+  display: inline-block;
+  transition: transform var(--t-fast);
+}
+.btn-submit:hover .btn-arrow { transform: translateX(4px); }
+.form-msg {
+  font-size: 13px;
+  min-height: 20px;
+  text-align: center;
+  transition: all var(--t-base);
+}
+.form-msg.success { color: var(--green); }
+.form-msg.error   { color: var(--red); }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 900px) {
+  .hero-content     { grid-template-columns: 1fr; }
+  .hero-canvas-wrap { order: -1; max-width: 300px; margin-inline: auto; }
+
+  /* Value prop: stack to single column — text first (DOM order), animation below */
+  .value-inner   { grid-template-columns: 1fr; }
+  .value-visual  {
+    min-height: unset;           /* drop the 320px floor */
+    width: 100%;
+    max-width: 360px;            /* keep it compact on tablet/phone */
+    margin-inline: auto;
+  }
+
+  /* Panels: single column on tablets */
+  .panel-inner {
+    grid-template-columns: 1fr;
+    gap: var(--s7);
+  }
+  .panel-bottom { padding-top: 0; }
+  .panel-headline { font-size: clamp(36px, 8vw, 56px); }
+}
+
+@media (max-width: 480px) {
+  /* Small phones: shrink the animation card a touch more */
+  .value-visual  { max-width: 280px; }
+
+  /* Light-mode card: tighter padding on small screens */
+  [data-theme="light"] .value-visual { padding: var(--s3); }
+}
+@media (max-width: 768px) {
+
+  /* ── Phases: vertical timeline on mobile ───────────────── */
+  .phases-connector-line { display: none; } /* hide the horizontal line */
+
+  .phases-nodes {
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Vertical line that runs through all three dots */
+  .phases-nodes::before {
+    content: '';
+    position: absolute;
+    left: 7px;       /* horizontal centre of the 16px dot */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+    z-index: 0;
+    transition: background 1200ms var(--ease-out) 400ms;
+  }
+  .phases-track-container.visible .phases-nodes::before {
+    background: linear-gradient(to bottom, var(--green), var(--blue), var(--gold));
+  }
+
+  /* Each node: dot on left, card on right */
+  .phase-node {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--s5);
+    padding-right: 0;
+    padding-bottom: var(--s7);
+    position: relative;
+  }
+  .phase-node:last-child { padding-bottom: 0; }
+
+  .phase-dot-wrap {
+    flex-shrink: 0;
+    margin-bottom: 0;    /* reset the desktop bottom margin */
+    margin-top: 2px;     /* optical alignment with first line of card text */
+    background: var(--bg);  /* masks the vertical line behind the dot */
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Panels: sticky + depth effect stays on on mobile ─────── */
+  /* position: sticky; top: 0; height: 100svh remain from the base rule — no override */
+  .panel-inner {
+    padding: clamp(80px, 14vw, 120px) clamp(20px, 5vw, 32px) clamp(60px, 10vw, 80px);
+  }
+  .panel-bignum { font-size: clamp(100px, 28vw, 160px); }
+}

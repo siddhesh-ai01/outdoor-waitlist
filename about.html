@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Outdoor</title>
+  <meta name="description" content="Outdoor is a team of athletes and builders creating India's complete sports ecosystem.">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+
+  <style>
+  /* ================================================================
+     ABOUT PAGE — section-specific styles
+     (Shared tokens, global components, phases
+      are handled by tokens.css / global.css / animations.css)
+  ================================================================ */
+
+  /* ── Hero ──────────────────────────────────────────────────── */
+  .about-hero {
+    min-height: 92svh;
+    display: flex;
+    align-items: center;
+    padding-top: var(--nav-h);
+    padding-bottom: var(--s9);
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  /* orange ambient glow — top-left */
+  .about-hero::before {
+    content: '';
+    position: absolute;
+    top: -15%;
+    left: -8%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, var(--orange-glow) 0%, transparent 65%);
+    pointer-events: none;
+    border-radius: 50%;
+    z-index: 1;
+  }
+  .about-hero-inner {
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
+  }
+  .about-hero-canvas-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--s3);
+    animation: heroFadeUp 900ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+  }
+
+  /* ── Hero entrance keyframe (local, correct syntax) ────── */
+  @keyframes heroFadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Hero kicker — large display stat above h1 ──────────── */
+  .about-hero-kicker {
+    display: flex;
+    align-items: baseline;
+    gap: var(--s4);
+    margin-top: var(--s4);
+    margin-bottom: var(--s4);
+    line-height: 1;
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+  }
+  .kicker-num {
+    font-size: clamp(72px, 11vw, 136px);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 0.9;
+    color: var(--text-primary);
+  }
+  .kicker-num sup {
+    font-size: 0.45em;
+    color: var(--orange);
+    vertical-align: super;
+    letter-spacing: -0.02em;
+  }
+  .kicker-label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .kicker-label-top {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .kicker-label-bottom {
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-body);
+    line-height: 1.2;
+  }
+
+  /* Stagger headline lines */
+  .about-hero-h1 {
+    font-size: clamp(44px, 6.5vw, 82px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 0.96;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--s5);
+  }
+  .about-hero-h1 span {
+    display: block;
+    /* NOTE: no opacity:0 here — if animation fails, text stays visible */
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .about-hero-h1 span:nth-child(1) { animation-delay: 200ms; }
+  .about-hero-h1 span:nth-child(2) { animation-delay: 320ms; }
+  .about-hero-h1 span:nth-child(3) { animation-delay: 440ms; }
+  .about-hero-h1 .ital {
+    font-family: var(--font-serif);
+    font-style: italic;
+    color: var(--orange);
+  }
+  .about-hero-sub {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--text-body);
+    max-width: 480px;
+    line-height: 1.7;
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 540ms both;
+  }
+  .about-hero-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--s5);
+    margin-top: var(--s6);
+    flex-wrap: wrap;
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 660ms both;
+  }
+  .about-hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+  }
+  .about-hero-scroll::before {
+    content: '';
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--text-hint);
+  }
+
+  /* ── Sports marquee ────────────────────────────────────────── */
+  .about-marquee {
+    overflow: hidden;
+    padding: var(--s4) 0;
+    border-bottom: 1px solid var(--border);
+    cursor: default;
+    user-select: none;
+  }
+  .about-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: var(--s5);
+    width: max-content;
+    animation: marqueeRoll 48s linear infinite;
+  }
+  .about-marquee-track:hover { animation-play-state: paused; }
+  .about-marquee-item {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: color var(--t-fast);
+  }
+  .about-marquee-item:hover { color: var(--text-primary); }
+  .about-marquee-item.lit   { color: var(--orange); }
+  .about-marquee-sep {
+    width: 3px; height: 3px;
+    border-radius: 50%;
+    background: var(--border);
+    flex-shrink: 0;
+  }
+  @keyframes marqueeRoll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── Shared section wrapper ────────────────────────────────── */
+  .about-section {
+    padding: clamp(80px, 10vw, 140px) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .about-section-inner {
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+  }
+
+  /* ── Mission ───────────────────────────────────────────────── */
+  .mission-layout {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(40px, 7vw, 96px);
+    align-items: start;
+  }
+  .mission-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(28px, 4vw, 56px);
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  .mission-quote .hl { color: var(--orange); }
+  .mission-right { padding-top: clamp(8px, 1.5vw, 24px); }
+  .mission-body {
+    font-size: clamp(15px, 1.5vw, 17px);
+    color: var(--text-body);
+    line-height: 1.85;
+    margin-bottom: var(--s7);
+  }
+  .mission-stats {
+    display: flex;
+    gap: var(--s7);
+    flex-wrap: wrap;
+    padding-top: var(--s6);
+    border-top: 1px solid var(--border);
+  }
+  .mstat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s2);
+  }
+  .mstat-num {
+    font-size: clamp(30px, 3.5vw, 46px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--text-primary);
+  }
+  .mstat-num sup { font-size: 0.55em; color: var(--orange); }
+  .mstat-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+  }
+
+  /* ── Team Outdoor ──────────────────────────────────────────── */
+  .team-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(48px, 8vw, 112px);
+    align-items: start;
+  }
+  .team-left-label { margin-bottom: var(--s4); }
+  .team-headline {
+    font-size: clamp(40px, 5.5vw, 72px);
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 0.97;
+    color: var(--text-primary);
+    margin-bottom: var(--s6);
+  }
+  .team-statement {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--text-body);
+    line-height: 1.85;
+    margin-bottom: var(--s5);
+  }
+  .team-statement + .team-statement { margin-top: 0; }
+
+  /* stacked trait cards */
+  .team-traits {
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  .trait-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: var(--s4);
+    padding: var(--s5) var(--s6);
+    background: var(--layer);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--t-fast), border-color var(--t-fast);
+    align-items: start;
+  }
+  .trait-item:last-child { border-bottom: none; }
+  .trait-item:hover { background: var(--surface); }
+  .trait-num {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    padding-top: 4px;
+  }
+  .trait-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--s2);
+  }
+  .trait-body {
+    font-size: 14px;
+    color: var(--text-body);
+    line-height: 1.65;
+  }
+
+  /* ── CTA ───────────────────────────────────────────────────── */
+  .about-cta {
+    padding: clamp(80px, 10vw, 140px) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-cta::before {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw; height: 60vw;
+    background: radial-gradient(circle, var(--orange-glow) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .about-cta-inner {
+    max-width: var(--max-w);
+    margin-inline: auto;
+    padding-inline: clamp(20px, 5vw, 60px);
+    position: relative;
+    z-index: 1;
+  }
+  .about-cta h2 { margin-bottom: var(--s5); }
+  .about-cta p {
+    font-size: clamp(15px, 1.6vw, 18px);
+    color: var(--text-body);
+    max-width: 440px;
+    margin-inline: auto;
+    margin-bottom: var(--s7);
+    line-height: 1.7;
+  }
+  .about-cta-btns {
+    display: flex;
+    gap: var(--s4);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ── Social links (CTA section) ───────────────────────────── */
+  .about-socials {
+    margin-top: var(--s8);
+    padding-top: var(--s7);
+    border-top: 1px solid var(--border);
+  }
+  .about-socials-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    margin-bottom: var(--s5);
+  }
+  .about-socials-row {
+    display: flex;
+    gap: var(--s3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .about-social-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 22px;
+    border: 1px solid var(--border);
+    border-radius: var(--r-full);
+    background: var(--layer);
+    color: var(--text-body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: border-color var(--t-fast), color var(--t-fast),
+                background var(--t-fast), transform var(--t-fast);
+    white-space: nowrap;
+  }
+  .about-social-card svg { flex-shrink: 0; }
+  .about-social-card:hover {
+    border-color: var(--orange);
+    color: var(--text-primary);
+    background: var(--orange-tint);
+    transform: translateY(-2px);
+  }
+  /* Per-platform accent on hover */
+  .about-social-card--yt:hover  { border-color: #FF0000; color: #FF0000; background: rgba(255,0,0,0.08); }
+  .about-social-card--ig:hover  { border-color: #E1306C; color: #E1306C; background: rgba(225,48,108,0.08); }
+  .about-social-card--li:hover  { border-color: #0A66C2; color: #0A66C2; background: rgba(10,102,194,0.10); }
+
+  /* ── Phase badge (top of hero text) ───────────────────────── */
+  .about-hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--r-full);
+    background: rgba(0, 194, 122, 0.08);
+    border: 1px solid rgba(0, 194, 122, 0.22);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: var(--s4);
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 30ms both;
+  }
+  .about-hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    animation: pulseBadgeDot 2.2s ease-in-out infinite;
+  }
+  @keyframes pulseBadgeDot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,194,122,0.55); }
+    50%       { box-shadow: 0 0 0 5px rgba(0,194,122,0); }
+  }
+
+  /* ── Sport pills ────────────────────────────────────────────── */
+  .about-hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: var(--s4);
+    margin-bottom: var(--s5);
+    animation: heroFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+  }
+  .about-hero-pill {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    border: 1px solid var(--border);
+    border-radius: var(--r-full);
+    padding: 5px 12px;
+    white-space: nowrap;
+  }
+  .about-hero-pill--lit {
+    color: var(--orange);
+    border-color: rgba(255,78,0,0.25);
+    background: var(--orange-tint);
+  }
+  .about-hero-pill--more {
+    border-style: dashed;
+  }
+
+  /* ── Canvas stats card ──────────────────────────────────────── */
+  .about-hero-canvas-stats {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--layer);
+    width: 100%;
+    overflow: hidden;
+    animation: heroFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+  }
+  .about-hero-cstat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: var(--s4) var(--s5);
+  }
+  .about-hero-cstat:not(:last-child) {
+    border-right: 1px solid var(--border);
+  }
+  .cstat-num {
+    font-size: clamp(18px, 2.2vw, 26px);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .cstat-num sup {
+    font-size: 0.52em;
+    color: var(--orange);
+    vertical-align: super;
+  }
+  .cstat-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-hint);
+    line-height: 1.4;
+  }
+
+  /* ── Responsive ────────────────────────────────────────────── */
+  @media (max-width: 860px) {
+    .mission-layout      { grid-template-columns: 1fr; }
+    .team-layout         { grid-template-columns: 1fr; gap: var(--s7); }
+    .about-hero-inner    { grid-template-columns: 1fr; gap: var(--s6); }
+    .about-hero-canvas-wrap { order: -1; max-width: 320px; margin-inline: auto; }
+  }
+  @media (max-width: 600px) {
+    .mission-stats  { gap: var(--s5); }
+    .about-socials-row { gap: var(--s2); }
+    .about-social-card { padding: 10px 16px; font-size: 13px; }
+    .about-hero-pills  { gap: 6px; }
+    .about-hero-pill   { padding: 4px 10px; font-size: 9px; }
+    .about-hero-badge  { font-size: 9px; padding: 5px 12px; }
+    .about-hero-cstat  { padding: var(--s3) var(--s4); }
+    .about-hero-kicker { gap: var(--s3); margin-top: var(--s3); margin-bottom: var(--s3); }
+    .kicker-label-bottom { font-size: 16px; }
+  }
+  </style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<header class="site-header" id="site-header">
+  <nav class="nav-inner">
+    <a href="index.html" class="logo-link" aria-label="Outdoor home">
+      <img src="assets/images/logos/logo-dark.png"
+           alt=""
+           class="logo-img"
+           id="header-logo">
+      <span class="logo-wordmark"><span class="logo-o">O</span>utdoor</span>
+    </a>
+    <div class="nav-right">
+      <a href="about.html" class="nav-link" aria-current="page">About</a>
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+        <span class="toggle-icon sun"  aria-hidden="true">☀</span>
+        <span class="toggle-icon moon" aria-hidden="true">◑</span>
+      </button>
+      <a href="waitlist.html" class="btn btn-primary">Get early access</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="about-hero" aria-label="About Outdoor">
+    <canvas id="hero-bg-canvas" aria-hidden="true"></canvas>
+    <div class="about-hero-inner">
+
+      <!-- Left: text -->
+      <div class="about-hero-text">
+
+        <!-- Phase badge -->
+        <div class="about-hero-badge" aria-label="Phase 1 — Now Building">
+          <span class="about-hero-badge-dot" aria-hidden="true"></span>
+          Phase 1 &middot; Now Building
+        </div>
+
+
+        <h1 class="about-hero-h1">
+          <span>One country.</span>
+          <span>Zero <em class="ital">ecosystems.</em></span>
+          <span>We're fixing that.</span>
+        </h1>
+
+
+        <div class="about-hero-meta">
+          <a href="waitlist.html" class="btn btn-primary">Get early access</a>
+        </div>
+      </div>
+
+      <!-- Right: morphing sport-shapes canvas + stats -->
+      <div class="about-hero-canvas-wrap">
+        <canvas id="matrix-canvas" data-shapes="sports" aria-hidden="true"></canvas>
+        <p class="canvas-label" id="canvas-label" aria-hidden="true">Cricket</p>
+
+        
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════ MARQUEE ═══════════ -->
+  <div class="about-marquee" aria-hidden="true">
+    <div class="about-marquee-track">
+      <!-- Set A -->
+      <span class="about-marquee-item lit">Cricket</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Football</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Badminton</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Kabaddi</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Tennis</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Basketball</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Hockey</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Wrestling</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Athletics</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Volleyball</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Table Tennis</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Boxing</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Squash</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Cycling</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Chess</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Archery</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Swimming</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Kho-Kho</span>
+      <span class="about-marquee-sep"></span>
+      <!-- Set B (duplicate for seamless loop) -->
+      <span class="about-marquee-item lit">Cricket</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Football</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Badminton</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Kabaddi</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Tennis</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Basketball</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Hockey</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Wrestling</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Athletics</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Volleyball</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Table Tennis</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Boxing</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Squash</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Cycling</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Chess</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item lit">Archery</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Swimming</span>
+      <span class="about-marquee-sep"></span>
+      <span class="about-marquee-item">Kho-Kho</span>
+      <span class="about-marquee-sep"></span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════ MISSION ═══════════ -->
+  <section class="about-section" aria-label="Our mission">
+    <div class="about-section-inner">
+      <div class="mission-layout">
+
+        <blockquote class="mission-quote reveal">
+          "Sport in India is <span class="hl">massive,</span> <span class="hl">underserved,</span> and ready for something real."
+        </blockquote>
+
+        <div class="mission-right reveal reveal-delay-2">
+          <span class="label">Why we exist</span>
+          <p class="mission-body">
+            India doesn't have a sports infrastructure problem — it has a
+            <em>connection</em> problem. The fans, the players, the venues, and
+            the stories are all there. What's missing is the layer that ties it
+            together: one app that lets you follow every sport you care about,
+            book the court down the road, find players at your level, and watch
+            the stories mainstream media ignores.
+          </p>
+          <p class="mission-body">
+            That's what Outdoor is. Not another social app. Not a booking
+            widget. The complete sports ecosystem India forgot to build.
+          </p>
+          <div class="mission-stats">
+            <div class="mstat">
+              <span class="mstat-num">1.4<sup>B</sup></span>
+              <span class="mstat-label">potential users</span>
+            </div>
+            <div class="mstat">
+              <span class="mstat-num">7<sup>+</sup></span>
+              <span class="mstat-label">apps we replace</span>
+            </div>
+            <div class="mstat">
+              <span class="mstat-num">30<sup>+</sup></span>
+              <span class="mstat-label">sports covered</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ TEAM OUTDOOR ═══════════ -->
+  <section class="about-section" aria-label="Team Outdoor">
+    <div class="about-section-inner">
+      <div class="team-layout">
+
+        <div class="team-left reveal">
+          <h2 class="team-headline">Team<br>Outdoor.</h2>
+          <p class="team-statement">
+            We're a group of ambitious engineers who got
+            tired of the fragmented state of Indian sport. We don't just build
+            for the sport — we play it, follow it, and argue about it at 1 AM.
+          </p>
+          <p class="team-statement">
+            We're not building Outdoor because it looked like a good business
+            idea on a slide deck. We're building it because it's the product
+            every one of us actually wants to exist.
+          </p>
+        </div>
+
+        <div class="team-traits reveal reveal-delay-2">
+          <div class="trait-item">
+            <span class="trait-num">01</span>
+            <div>
+              <span class="trait-title">We play what we build.</span>
+              <span class="trait-body">Cricket, football, badminton, kabaddi — the team has skin in the game, not just a brief about it.</span>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-num">02</span>
+            <div>
+              <span class="trait-title">We've shipped at scale.</span>
+              <span class="trait-body">Product, engineering, design, ops — collectively, we've built products used by millions across World.</span>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-num">03</span>
+            <div>
+              <span class="trait-title">India-only, by design.</span>
+              <span class="trait-body">Not a Western product ported over. Built ground-up for Indian sports culture, infrastructure, and fans.</span>
+            </div>
+          </div>
+          <div class="trait-item">
+            <span class="trait-num">04</span>
+            <div>
+              <span class="trait-title">Playing the long game.</span>
+              <span class="trait-body">Community → Infrastructure → Deep-Tech. Three phases, one vision. We're not chasing the next quarter.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ PHASES — The Long Game ═══════════ -->
+  <section class="phases-section" id="phases" aria-label="Company phases">
+    <div class="phases-inner">
+
+      <div class="phases-header reveal">
+        <h2>Building the future<br>of Indian sport</h2>
+      </div>
+
+      <div class="phases-track-container" id="phases-track-container">
+
+        <div class="phases-connector-line" aria-hidden="true">
+          <div class="phases-connector-fill" id="phases-connector-fill"></div>
+        </div>
+
+        <div class="phases-nodes">
+
+          <!-- Phase 1 — Community -->
+          <div class="phase-node" data-phase="1">
+            <div class="phase-dot-wrap">
+              <div class="phase-dot phase-dot--green">
+                <div class="phase-pulse-ring" aria-hidden="true"></div>
+              </div>
+            </div>
+            <div class="phase-card">
+              <span class="phase-badge phase-badge--green">● Now building</span>
+              <span class="phase-tag">Phase 1</span>
+              <h3 class="phase-name">Community</h3>
+              <p class="phase-desc">Connect every sports fan, player, and venue across India into one living network. The foundation everything else is built on.</p>
+            </div>
+          </div>
+
+          <!-- Phase 2 — Infrastructure -->
+          <div class="phase-node" data-phase="2">
+            <div class="phase-dot-wrap">
+              <div class="phase-dot phase-dot--blue"></div>
+            </div>
+            <div class="phase-card">
+              <span class="phase-badge phase-badge--blue">◌ Up next</span>
+              <span class="phase-tag">Phase 2</span>
+              <h3 class="phase-name">Infrastructure</h3>
+              <p class="phase-desc">Build world class sports facilities and complete management systems for businesses that scale grassroots sports to global leagues.</p>
+            </div>
+          </div>
+
+          <!-- Phase 3 — Deep-Tech -->
+          <div class="phase-node" data-phase="3">
+            <div class="phase-dot-wrap">
+              <div class="phase-dot phase-dot--gold"></div>
+            </div>
+            <div class="phase-card">
+              <span class="phase-badge phase-badge--gold">◈ The future</span>
+              <span class="phase-tag">Phase 3</span>
+              <h3 class="phase-name">Sports Deep-Tech</h3>
+              <p class="phase-desc">Bring hardware, AI and wearables to support every level of play. Making India a global sensation in every sport.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════ CTA ═══════════ -->
+  <section class="about-cta" aria-label="Join the waitlist">
+    <div class="about-cta-inner reveal">
+      <h2>Be part of the beginning.</h2>
+      <p>We're launching Phase 1 soon. Get early access and help shape the product.</p>
+      <div class="about-cta-btns">
+        <a href="waitlist.html" class="btn btn-primary btn-lg">Get early access →</a>
+      </div>
+
+      <!-- Social media links -->
+      <div class="about-socials">
+        <span class="about-socials-label">Follow our journey</span>
+        <div class="about-socials-row">
+
+          <a href="https://www.linkedin.com/company/theoutdoor/" class="about-social-card about-social-card--li"
+             aria-label="Outdoor on LinkedIn" rel="noopener noreferrer" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+              <rect x="2" y="9" width="4" height="12"/>
+              <circle cx="4" cy="4" r="2"/>
+            </svg>
+            LinkedIn
+          </a>
+
+          <a href="#" class="about-social-card about-social-card--ig"
+             aria-label="Outdoor on Instagram" rel="noopener noreferrer" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            Instagram
+          </a>
+
+          <a href="#" class="about-social-card about-social-card--yt"
+             aria-label="Outdoor on YouTube" rel="noopener noreferrer" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+              <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+            </svg>
+            YouTube
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer class="site-footer" id="site-footer" aria-label="Site footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <img src="assets/images/logos/logo-dark.png"
+           alt="Outdoor"
+           class="footer-logo"
+           id="footer-logo">
+      <p class="footer-tagline">The complete sports ecosystem<br>India forgot to build.</p>
+    </div>
+    <div class="footer-links">
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="about.html" aria-current="page">About</a>
+        <a href="waitlist.html">Join Waitlist</a>
+      </nav>
+      <div class="footer-social">
+        <a href="https://www.linkedin.com/company/theoutdoor/" class="social-link" aria-label="LinkedIn" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+            <rect x="2" y="9" width="4" height="12"/>
+            <circle cx="4" cy="4" r="2"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+        </a>
+        <a href="#" class="social-link" aria-label="YouTube" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Outdoor. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="js/theme.js"></script>
+<script src="js/sticky-scroll.js"></script>
+<script src="js/matrix.js"></script>
+
+</body>
+</html>
