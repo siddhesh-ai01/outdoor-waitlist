@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join the Waitlist — Outdoor</title>
+  <meta name="description" content="Be among the first to experience Outdoor — India's complete sports ecosystem. Get early access now.">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/global.css">
+  <style>
+    /* ── Waitlist page specific styles ── */
+    .wl-page {
+      min-height: 100svh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    /* Left: decorative panel */
+    .wl-panel {
+      background: var(--layer);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(32px, 6vw, 72px);
+      position: relative;
+      overflow: hidden;
+    }
+    .wl-panel::before {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 70%;
+      height: 70%;
+      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 65%);
+      pointer-events: none;
+      border-radius: 50%;
+    }
+    .wl-panel-logo {
+      height: 30px;
+      width: auto;
+    }
+    .wl-panel-headline {
+      position: relative; z-index: 1;
+    }
+    .wl-panel-headline h1 {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+      line-height: 1.02;
+      margin-bottom: var(--s5);
+    }
+    .wl-panel-headline p {
+      font-size: clamp(15px, 1.4vw, 18px);
+      color: var(--text-body);
+      line-height: 1.65;
+      max-width: 380px;
+    }
+    .wl-stat {
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+    }
+    .wl-stat-num {
+      font-size: clamp(36px, 4vw, 56px);
+      font-weight: 900;
+      color: var(--green);
+      letter-spacing: -0.04em;
+    }
+    .wl-stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    /* Right: form panel */
+    .wl-form-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(32px, 6vw, 72px);
+      background: var(--bg);
+    }
+    .wl-form-header {
+      margin-bottom: var(--s8);
+    }
+    .wl-form-header h2 {
+      font-size: clamp(28px, 3.5vw, 44px);
+      margin-bottom: var(--s3);
+    }
+    .wl-form-header p {
+      font-size: 15px;
+      color: var(--text-hint);
+    }
+    .wl-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      max-width: 420px;
+    }
+    .wl-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+    }
+    .wl-input-group label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-hint);
+    }
+    .wl-input-group input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--layer);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      color: var(--text-primary);
+      font-family: var(--font);
+      font-size: 15px;
+      outline: none;
+      transition: border-color var(--t-fast), background var(--t-fast);
+    }
+    .wl-input-group input::placeholder { color: var(--text-hint); }
+    .wl-input-group input:focus {
+      border-color: var(--orange);
+      background: var(--surface);
+    }
+    .wl-submit {
+      margin-top: var(--s2);
+      padding: 16px 28px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--s2);
+      background: var(--orange);
+      color: #fff;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 15px;
+      border: none;
+      border-radius: var(--r-md);
+      cursor: pointer;
+      transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+    }
+    .wl-submit:hover {
+      background: #e84500;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px var(--orange-glow);
+    }
+    .wl-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .wl-arrow { transition: transform var(--t-fast); }
+    .wl-submit:hover:not(:disabled) .wl-arrow { transform: translateX(4px); }
+    .wl-msg {
+      font-size: 13px;
+      min-height: 20px;
+      margin-top: var(--s1);
+    }
+    .wl-msg.success { color: var(--green); }
+    .wl-msg.error   { color: var(--red); }
+    .wl-back {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s2);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-hint);
+      margin-top: var(--s6);
+      transition: color var(--t-fast);
+    }
+    .wl-back:hover { color: var(--text-primary); }
+    .wl-privacy {
+      font-size: 12px;
+      color: var(--text-hint);
+      margin-top: var(--s3);
+    }
+
+    /* Mobile: stack vertically */
+    @media (max-width: 768px) {
+      .wl-page { grid-template-columns: 1fr; }
+      .wl-panel {
+        min-height: 40svh;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding: clamp(24px, 5vw, 48px);
+      }
+      .wl-form-panel { padding: clamp(24px, 5vw, 48px); }
+      .wl-form { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<main class="wl-page">
+
+  <!-- Left: brand panel -->
+  <div class="wl-panel">
+    <a href="index.html" class="logo-link" aria-label="Back to Outdoor home">
+      <img src="assets/images/logos/logo-dark.png"
+           alt=""
+           class="wl-panel-logo"
+           id="header-logo">
+      <span class="logo-wordmark"><span class="logo-o">O</span>utdoor</span>
+    </a>
+
+    <div class="wl-panel-headline">
+      <span class="label"></span>
+      <h1>Sport,<br>the way it<br>should be.</h1>
+      <p>Outdoor is building the complete sports ecosystem App for the phase 1. Follow, book, co-play — all in one place.</p>
+    </div>
+
+    <div class="wl-stat">
+      <span class="wl-stat-num" id="panel-count">—</span>
+      <span class="wl-stat-label">People already waiting</span>
+    </div>
+  </div>
+
+  <!-- Right: form -->
+  <div class="wl-form-panel">
+    <div class="wl-form-header">
+      <span class="label">Join the waitlist</span>
+      <h2>Get early access</h2>
+      <p>No spam, ever. We respect your inbox.</p>
+    </div>
+
+    <form class="wl-form waitlist-form" id="wl-form" novalidate>
+      <div class="wl-input-group">
+        <label for="wl-name">Your name</label>
+        <input type="text" id="wl-name" name="name"
+               placeholder="e.g. Rahul Sharma" autocomplete="name" required>
+      </div>
+      <div class="wl-input-group">
+        <label for="wl-email">Email address</label>
+        <input type="email" id="wl-email" name="email"
+               placeholder="you@example.com" autocomplete="email" required>
+      </div>
+      <button type="submit" class="wl-submit" id="wl-submit">
+        <span class="btn-text">Join the waitlist</span>
+        <span class="wl-arrow" aria-hidden="true">→</span>
+      </button>
+      <p class="wl-msg form-msg" id="wl-msg" aria-live="polite" role="status"></p>
+
+    </form>
+
+    <a href="index.html" class="wl-back">
+      ← Back to Outdoor
+    </a>
+  </div>
+
+</main>
+
+<script src="js/theme.js"></script>
+<script src="js/waitlist.js"></script>
+<script>
+  // Mirror panel count from main count display
+  document.addEventListener('DOMContentLoaded', function () {
+    const panelCount = document.getElementById('panel-count');
+    // Re-use waitlist.js's refreshCount — it targets .count-num and [id$="-count"]
+    // panel-count ID ends in "-count" so it's auto-updated
+  });
+</script>
+
+</body>
+</html>
