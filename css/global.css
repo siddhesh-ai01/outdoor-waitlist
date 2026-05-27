@@ -325,6 +325,26 @@ p { color: var(--text-body); line-height: 1.65; }
 /* Nav icon — always visible, inherits link colour */
 .nav-icon { display: inline-flex; align-items: center; }
 
+/* Nav icon button — circular bordered button, mirrors .theme-toggle */
+.nav-icon-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--r-full);
+  border: 1px solid rgba(255, 78, 0, 0.45);
+  background: var(--orange-tint);
+  color: var(--orange);
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--t-fast);
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+.nav-icon-btn:hover {
+  background: rgba(255, 78, 0, 0.18);
+  color: var(--orange);
+  border-color: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255, 78, 0, 0.12);
+}
+
 /* --- Mobile nav adjustments --- */
 @media (max-width: 600px) {
   .nav-right { gap: var(--s3); }
