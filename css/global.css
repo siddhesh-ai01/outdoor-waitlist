@@ -322,9 +322,11 @@ p { color: var(--text-body); line-height: 1.65; }
 .reveal-delay-3 { transition-delay: 320ms; }
 .reveal-delay-4 { transition-delay: 440ms; }
 
+/* Nav icon — always visible, inherits link colour */
+.nav-icon { display: inline-flex; align-items: center; }
+
 /* --- Mobile nav adjustments --- */
 @media (max-width: 600px) {
-  .nav-link { display: none; }
   .nav-right { gap: var(--s3); }
   .btn-primary { padding: 10px 18px; font-size: 13px; }
 }
