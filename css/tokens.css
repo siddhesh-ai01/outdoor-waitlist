@@ -1,82 +1,111 @@
 /* ==========================================================
-   OUTDOOR — Design Tokens
-   All CSS custom properties. Import first.
+   OUTDOOR — Design tokens (brand v2.1)
+   Source of truth: outdoor-app/docs/Outdoor_Brand_Palette.md
+   Dark is the default; [data-theme="light"] overrides.
    ========================================================== */
 
 :root {
-  /* --- Dark mode (default) --- */
-  --bg:        #0A0A0A;
-  --layer:     #141414;
-  --surface:   #1C1C1C;
+  color-scheme: dark;
+
+  /* Surfaces — Part 2.1 */
+  --bg:        #0A0A0A;            /* Pitch Black */
+  --deep:      #111111;            /* inputs, nested layers */
+  --surface:   #1C1C1C;            /* cards */
+  --elevated:  #242424;
   --hover:     #252525;
-  --border:    #1E1E1E;
+  --border:    #1E1E1E;            /* rules on the page */
+  --rim:       rgba(255, 255, 255, 0.10);  /* a dark card is lifted by its rim, not a shadow */
+  --divider:   rgba(255, 255, 255, 0.07);  /* rules inside a card */
+  --outline:   #2A2A2A;            /* rim of an unselected control */
 
-  --text-primary: #F2EDC8;
-  --text-body:    #808080;
-  --text-hint:    #444444;
+  /* Text — Part 2.2 */
+  --text:      #F2EDE8;
+  --body:      #C8C0B8;
+  --muted:     #888888;
+  --hint:      #444444;            /* decoration only: fails contrast as text */
 
-  /* --- Accent & semantic --- */
-  --orange:       #FF4E00;
-  --orange-tint:  rgba(255, 78, 0, 0.10);
-  --orange-glow:  rgba(255, 78, 0, 0.18);
-  --green:        #00C27A;
-  --green-tint:   rgba(0, 194, 122, 0.10);
-  --red:          #FF3B3B;
-  --blue:         #1EAEFF;
-  --blue-tint:    rgba(30, 174, 255, 0.10);
-  --gold:         #FFB300;
+  /* Shared accents — Part 4 (mode-independent) */
+  --orange:    #FF4E00;            /* Stadium Orange: primary CTA + wordmark only */
+  --on-orange: #FFFFFF;
+  --green:     #06C27A;            /* Match Green — success, venues */
+  --blue:      #1EAEFF;            /* Live Blue — live, scores, links */
+  --gold:      #F7B300;            /* Trophy Gold — news, featured */
+  --red:       #FF3B3B;            /* Loss Red — errors */
+  --teal:      #00BFA5;            /* Court Teal — community */
+  --indigo:    #6C3FC4;            /* Depth Indigo — Phase 3, analytics */
 
-  /* --- Typography --- */
-  --font:       'FK Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-mono:  'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  /* Accents used as FOREGROUND (text, thin glyphs). Light mode carries them darker. */
+  --link:       #1EAEFF;
+  --green-text: #06C27A;
+  --gold-text:  #F7B300;
+  --red-text:   #FF3B3B;
 
-  /* --- Spacing scale (base 4) --- */
-  --s1:  4px;
-  --s2:  8px;
-  --s3:  12px;
-  --s4:  16px;
-  --s5:  24px;
-  --s6:  32px;
-  --s7:  48px;
-  --s8:  64px;
-  --s9:  96px;
-  --s10: 128px;
+  /* Elevation */
+  --shadow-card: none;
+  --glow-cta:    0 0 20px rgba(255, 78, 0, 0.25);   /* hero CTA only */
+  --glass:       rgba(10, 10, 10, 0.62);
+  --glass-sheen: rgba(255, 255, 255, 0.06);
+  --scrim:       rgba(0, 0, 0, 0.6);
 
-  /* --- Radii --- */
-  --r-sm:   4px;
-  --r-md:   8px;
-  --r-lg:   16px;
-  --r-xl:   24px;
-  --r-full: 9999px;
+  /* Dot field — Part 10 (as built in spec.ts) */
+  --field-dot:   #F2EDE8;
 
-  /* --- Easing --- */
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snappy: cubic-bezier(0.83, 0, 0.17, 1);
+  /* Type */
+  --font-display:   'Satoshi', 'DM Sans', system-ui, sans-serif;
+  --font-body:      'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-num:       'Bebas Neue', 'DM Sans', system-ui, sans-serif;
+  --font-label:     'Space Grotesk', 'DM Sans', system-ui, sans-serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-sign:      'Dancing Script', 'Segoe Script', cursive;
 
-  /* --- Transitions --- */
-  --t-fast:   150ms var(--ease-out);
-  --t-base:   300ms var(--ease-out);
-  --t-slow:   600ms var(--ease-out);
-  --t-slower: 900ms var(--ease-out);
+  /* Spacing (4px base) */
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
+  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
 
-  /* --- Layout --- */
-  --max-w: 1160px;
-  --nav-h: 68px;
-  --section-gap: clamp(80px, 10vw, 140px);
+  /* Radii */
+  --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-xl: 28px; --r-full: 9999px;
+
+  /* Motion — app theme/motion.ts: 220ms ease-out is the house standard */
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --d-fast:    150ms;
+  --d-base:    220ms;
+  --d-slow:    420ms;
+
+  /* Layout */
+  --max-w:  1180px;
+  --gutter: clamp(20px, 5vw, 56px);
+  --nav-h:  68px;
+  --section-pad: clamp(88px, 11vw, 160px);
 }
 
-/* Light mode overrides */
 [data-theme="light"] {
-  --bg:      #F5F0E8;
-  --layer:   #EDE7DC;
-  --surface: #FFFFFF;
-  --hover:   #EDE7DC;
-  --border:  #E0D4CE;
+  color-scheme: light;
 
-  --text-primary: #0A0A2A;
-  --text-body:    #333333;
-  --text-hint:    #BBBBBB;
+  --bg:        #F5F3E8;            /* Warm Cream */
+  --deep:      #EDE8DC;
+  --surface:   #FFFFFF;
+  --elevated:  #FAFAFA;
+  --hover:     #F0F2F5;
+  --border:    #E0D8CE;
+  --rim:       #E0D8CE;
+  --divider:   #E0D8CE;
+  --outline:   #CFC5B6;
 
-  --orange-glow: rgba(255, 78, 0, 0.12);
+  --text:      #0A0A0A;
+  --body:      #333333;
+  --muted:     #6E6A65;            /* brand #888 fails AA on cream at label sizes */
+  --hint:      #BBBBBB;
+
+  --link:       #0A6EA3;           /* Live Blue carried down to clear 4.5:1 on cream */
+  --green-text: #036E45;
+  --gold-text:  #7D5A00;
+  --red-text:   #BA0000;
+
+  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.08);
+  --glow-cta:    0 0 16px rgba(255, 78, 0, 0.15);
+  --glass:       rgba(245, 243, 232, 0.70);
+  --glass-sheen: rgba(255, 255, 255, 0.70);
+  --scrim:       rgba(0, 0, 0, 0.4);
+
+  --field-dot:   #0A0A0A;
 }

@@ -1,101 +1,133 @@
 /**
  * ============================================================
- * OUTDOOR — Google Apps Script (Waitlist Backend)
+ * OUTDOOR — Waitlist backend (Google Apps Script) · v2
  * ============================================================
  *
- * HOW TO SET THIS UP (one-time, takes ~5 minutes):
+ * Sheet layout, row 1 headers:
+ *   A: Timestamp    B: Name    C: Email    D: City
  *
- * 1. Create a new Google Sheet (give it any name, e.g. "Outdoor Waitlist")
+ * What v2 adds over v1
+ *  - Every reply says where the person is on the list, repeat sign-ups included.
+ *  - A lock stops two people joining at the same moment from getting one number.
+ *  - Text that would start a spreadsheet formula (= + - @) is stored as plain text.
+ *  - The thank-you page can save an optional city to the same row (column D).
+ *    It is write-once, so nobody can overwrite someone else's answer.
+ *  - Bots that fill the hidden "company" field get a success reply and no row.
  *
- * 2. In row 1, add headers in columns A, B, C:
- *      A1: Timestamp    B1: Name    C1: Email
+ * The site works with v1 too; only the city question needs v2.
  *
- * 3. Open Extensions → Apps Script
+ * ── Updating the live deployment WITHOUT changing its URL ──
+ *  1. In the sheet, type "City" in cell D1.
+ *  2. Extensions → Apps Script → replace all the code with this file → Save.
+ *  3. Deploy → Manage deployments → select the web app → Edit (pencil icon)
+ *     → Version: "New version" → Deploy. Authorise if asked.
+ *  Choosing "New deployment" instead creates a NEW URL; if that happens,
+ *  paste it into js/config.js as scriptUrl.
  *
- * 4. Delete all existing code in the editor and paste this entire file.
- *
- * 5. Click "Save project" (floppy disk icon or Ctrl+S).
- *
- * 6. Click "Deploy" → "New deployment"
- *      - Type:              Web app
- *      - Execute as:        Me
- *      - Who has access:    Anyone
- *    Click "Deploy". Authorise the app when prompted.
- *
- * 7. Copy the "Web app URL" — it looks like:
- *      https://script.google.com/macros/s/XXXXXXXXXX/exec
- *
- * 8. Open js/waitlist.js and replace:
- *      const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
- *    with your actual URL.
- *
- * That's it — the form is now live and submits go straight to the sheet.
- * Every new entry is a new row; the count auto-updates on the UI.
+ * ── First-time setup ──
+ *  Same as above, but in step 3 use Deploy → New deployment → Web app,
+ *  Execute as: Me, Who has access: Anyone, then copy the /exec URL into js/config.js.
  * ============================================================
  */
 
-// ─── CONFIG ────────────────────────────────────────────────
-// If your sheet tab has a custom name, change this to match.
-var SHEET_NAME = 'Sheet1';
-// ───────────────────────────────────────────────────────────
+var SHEET_NAME = 'Sheet1';   // change if your tab has another name
+var VERSION = 2;
+var COL = { TIME: 1, NAME: 2, EMAIL: 3, CITY: 4 };
+var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-/**
- * Handle form submissions (POST from the website).
- * Receives: name, email as URL-encoded form body.
- */
+/** GET → how many people are waiting. */
+function doGet() {
+  try {
+    return respond({ ok: true, count: Math.max(0, getSheet().getLastRow() - 1), v: VERSION });
+  } catch (err) {
+    return respond({ ok: false, count: 0, error: String(err) });
+  }
+}
+
+/** POST → join (name, email) or save a city (action=city, email, city). */
 function doPost(e) {
+  var p = (e && e.parameter) || {};
   try {
-    var sheet = getSheet();
-    var name  = (e.parameter.name  || '').trim();
-    var email = (e.parameter.email || '').trim();
-
-    if (!email) {
-      return respond({ success: false, error: 'Email is required.' });
-    }
-
-    // Check for duplicate email
-    var data  = sheet.getDataRange().getValues();
-    var emails = data.slice(1).map(function (row) { return (row[2] || '').toLowerCase(); });
-    if (emails.indexOf(email.toLowerCase()) !== -1) {
-      var count = Math.max(0, sheet.getLastRow() - 1);
-      return respond({ success: true, duplicate: true, count: count });
-    }
-
-    var timestamp = new Date().toISOString();
-    sheet.appendRow([timestamp, name, email]);
-
-    var count = Math.max(0, sheet.getLastRow() - 1);
-    return respond({ success: true, count: count });
-
+    if (p.action === 'city') return respond(saveCity(p));
+    return respond(join(p));
   } catch (err) {
-    return respond({ success: false, error: err.message });
+    return respond({ ok: false, error: String(err) });
   }
 }
 
-/**
- * Return the current waitlist count (GET request from the UI).
- */
-function doGet(e) {
+function join(p) {
+  if (p.company) return { ok: true, success: true, v: VERSION };   // honeypot
+
+  var name = clean(p.name, 80);
+  var email = clean(p.email, 120).toLowerCase();
+  if (!name) return { ok: false, error: 'name' };
+  if (!EMAIL_RE.test(email)) return { ok: false, error: 'email' };
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
   try {
     var sheet = getSheet();
+    var row = findRow(sheet, email);
     var count = Math.max(0, sheet.getLastRow() - 1);
-    return respond({ count: count });
-  } catch (err) {
-    return respond({ count: 0, error: err.message });
+    if (row) {
+      return { ok: true, success: true, duplicate: true, position: row - 1, count: count, v: VERSION };
+    }
+    sheet.appendRow([new Date().toISOString(), plain(name), plain(email), '']);
+    var position = sheet.getLastRow() - 1;
+    return { ok: true, success: true, duplicate: false, position: position, count: position, v: VERSION };
+  } finally {
+    lock.releaseLock();
   }
 }
 
-/** Helper: get the target sheet */
+function saveCity(p) {
+  var email = clean(p.email, 120).toLowerCase();
+  var city = clean(p.city, 40);
+  if (!EMAIL_RE.test(email) || !city) return { ok: false, error: 'missing' };
+
+  var lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    var sheet = getSheet();
+    var row = findRow(sheet, email);
+    if (!row) return { ok: false, error: 'not-found' };
+    var cell = sheet.getRange(row, COL.CITY);
+    var current = String(cell.getValue() || '').trim();
+    if (current) return { ok: true, city: current, unchanged: true, v: VERSION };   // write-once
+    cell.setValue(plain(city));
+    return { ok: true, city: city, v: VERSION };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+/** Row number (1-based, header is row 1) holding this email, or 0. */
+function findRow(sheet, email) {
+  var last = sheet.getLastRow();
+  if (last < 2) return 0;
+  var values = sheet.getRange(2, COL.EMAIL, last - 1, 1).getValues();
+  for (var i = 0; i < values.length; i++) {
+    if (String(values[i][0]).trim().toLowerCase() === email) return i + 2;
+  }
+  return 0;
+}
+
+function clean(value, max) {
+  return String(value || '').replace(/\s+/g, ' ').trim().slice(0, max);
+}
+
+/** Store as text, never as a formula. */
+function plain(value) {
+  return /^[=+\-@\t\r]/.test(value) ? "'" + value : value;
+}
+
 function getSheet() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(SHEET_NAME) || ss.getActiveSheet();
-  return sheet;
+  return ss.getSheetByName(SHEET_NAME) || ss.getActiveSheet();
 }
 
-/** Helper: JSON response with CORS headers */
 function respond(data) {
-  var output = ContentService
+  return ContentService
     .createTextOutput(JSON.stringify(data))
     .setMimeType(ContentService.MimeType.JSON);
-  return output;
 }

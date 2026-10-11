@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9 31 440 440">
+  <style>.door{fill:#0A0A0A}@media (prefers-color-scheme: dark){.door{fill:#F2EDE8}}</style>
+  <path class="door" d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z"/>
+  <circle cx="193" cy="250" r="110" fill="#FF4E00"/>
+</svg>

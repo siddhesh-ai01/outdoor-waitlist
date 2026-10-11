@@ -1,0 +1,113 @@
+/* ==========================================================
+   OUTDOOR — Story
+   Families per section: opener + promises Satoshi + DM Sans ·
+   the problem and the people DM Sans + Space Grotesk · long game DM Sans + Bebas Neue.
+   ========================================================== */
+
+/* ── Opener ────────────────────────────────────────────────────── */
+.story-hero {
+  min-height: max(560px, 82svh);
+  display: flex; align-items: center;
+  padding-block: calc(var(--nav-h) + 56px) 96px;
+}
+.story-hero-inner { display: grid; gap: var(--s5); justify-items: start; }
+.story-hero .display { max-width: 11ch; }
+.story-hero .lead { max-width: 32ch; }
+@media (max-width: 760px) {
+  .story-hero { min-height: 0; display: block; padding-block: calc(var(--nav-h) + 48px) 120px; }
+  .story-hero .display { font-size: clamp(46px, 12.5vw, 72px); }
+}
+
+/* ── The problem: five apps fold into one ──────────────────────── */
+.fold { height: 230vh; position: relative; border-top: 1px solid var(--border); }
+.fold-sticky { position: sticky; top: 0; height: 100svh; display: grid; align-items: center; overflow: hidden; }
+.fold-inner { display: grid; gap: var(--s5); }
+.fold-caption { position: relative; max-width: 18ch; min-height: 2.1em; }
+.fold-caption span { display: block; transition: opacity var(--d-slow) var(--ease-out), transform var(--d-slow) var(--ease-out); }
+.fold-caption .after { position: absolute; inset: 0 auto auto 0; opacity: 0; transform: translateY(10px); }
+.fold-caption[data-stage="after"] .before { opacity: 0; transform: translateY(-10px); }
+.fold-caption[data-stage="after"] .after { opacity: 1; transform: none; }
+.fold-stage { position: relative; height: 200px; margin-top: var(--s6); display: grid; place-items: center; }
+.fold-tiles { display: flex; gap: 0; justify-content: center; position: absolute; inset: 0; align-items: center; }
+.fold-tile {
+  position: absolute; left: 50%; top: 50%; margin: -44px 0 0 -40px;
+  width: 80px; display: grid; justify-items: center; gap: 10px;
+  will-change: transform, opacity;
+}
+.fold-tile svg {
+  width: 80px; height: 80px; padding: 22px; border-radius: 22px;
+  background: var(--surface); border: 1px solid var(--rim); box-shadow: var(--shadow-card);
+  fill: none; stroke: var(--text); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
+}
+.fold-tile em { font: 600 11px/1 var(--font-label); font-style: normal; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.fold-icon {
+  width: 112px; height: 112px; border-radius: 28px; display: grid; place-items: center;
+  background: #0A0A0A; border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  opacity: 0; transform: scale(0.55); will-change: transform, opacity;
+}
+.fold-icon svg { height: 64px; width: auto; }
+.fold.is-folded { height: auto; }
+.fold.is-folded .fold-sticky { position: static; height: auto; padding-block: var(--section-pad); }
+.fold.is-folded .fold-tiles { display: none; }
+.fold.is-folded .fold-icon { opacity: 1; transform: none; }
+.fold.is-folded .fold-caption .before { display: none; }
+.fold.is-folded .fold-caption .after { position: static; opacity: 1; transform: none; }
+@media (max-width: 600px) {
+  .fold-tile { width: 60px; margin: -36px 0 0 -30px; }
+  .fold-tile svg { width: 60px; height: 60px; padding: 16px; border-radius: 17px; }
+  .fold-tile em { font-size: 9.5px; }
+  .fold-icon { width: 96px; height: 96px; border-radius: 24px; }
+  .fold-icon svg { height: 54px; }
+}
+
+/* ── Promises ──────────────────────────────────────────────────── */
+.promises { border-top: 1px solid var(--border); }
+.promise-list { display: grid; gap: clamp(8px, 1.6vw, 20px); margin-top: var(--s6); }
+.promise-list li {
+  font: 700 clamp(38px, 6.4vw, 88px)/1.02 var(--font-display);
+  letter-spacing: -0.035em; color: var(--text);
+}
+
+/* ── The long game ─────────────────────────────────────────────── */
+.long { border-top: 1px solid var(--border); }
+
+/* ── People ────────────────────────────────────────────────────── */
+.people { border-top: 1px solid var(--border); }
+.people-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
+.person { display: flex; gap: var(--s5); align-items: flex-start; padding: clamp(20px, 3vw, 32px); }
+.avatar-lg { width: 72px; height: 72px; font-size: 28px; }
+.team-mark { background: #0A0A0A; border-color: rgba(255, 255, 255, 0.14); }
+.team-mark svg { height: 38px; width: auto; color: #FFFFFF; }
+.person-text { display: grid; gap: 6px; }
+.person-text h3 { font: 800 24px/1.15 var(--font-body); letter-spacing: -0.015em; }
+.role { font: 600 11px/1.2 var(--font-label); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.person-text p:last-child { font-size: 17px; color: var(--body); margin-top: 4px; max-width: 34ch; }
+@media (max-width: 760px) { .people-grid { grid-template-columns: 1fr; } }
+
+/* ── Questions ─────────────────────────────────────────────────── */
+.faq { border-top: 1px solid var(--border); }
+.faq-inner { max-width: 920px; }
+.faq-list { border-top: 1px solid var(--border); }
+.qa { border-bottom: 1px solid var(--border); }
+.qa summary {
+  list-style: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  padding: 22px 0; font: 700 clamp(18px, 1.8vw, 21px)/1.3 var(--font-body); color: var(--text);
+}
+.qa summary::-webkit-details-marker { display: none; }
+.qa summary::after {
+  content: ''; flex: none; width: 14px; height: 14px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 14px 1.8px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 1.8px 14px no-repeat;
+  transition: transform var(--d-base) var(--ease-out);
+}
+.qa[open] summary::after { transform: rotate(45deg); }
+.qa p { padding: 0 0 24px; max-width: 62ch; font-size: 17px; color: var(--body); }
+
+/* ── Say hello ─────────────────────────────────────────────────── */
+.hello { border-top: 1px solid var(--border); }
+.hello-inner { display: grid; gap: var(--s5); justify-items: start; }
+.hello-inner .h2 { max-width: 16ch; }
+.hello-links { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s6); }

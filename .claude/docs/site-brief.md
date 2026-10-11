@@ -15,6 +15,11 @@
 
 ## Brand Palette
 
+> **Superseded (2026-10-10):** the site now follows brand v2.1 from
+> `outdoor-app/docs/Outdoor_Brand_Palette.md` (DM Sans / Satoshi / Bebas Neue / Space Grotesk /
+> Cormorant Garamond / Dancing Script; updated colour values). The values below are the
+> original brief, kept for history.
+
 ### Typography
 - **Display:** FK Grotesk Black
 - **Body:** FK Grotesk Regular

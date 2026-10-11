@@ -1,127 +1,208 @@
 /* ==========================================================
-   OUTDOOR — Waitlist Form Handler
-   Google Apps Script integration for all forms on any page.
+   OUTDOOR — Waitlist
+   Talks to the Google Apps Script in APPS_SCRIPT.js.
 
-   HOW TO SET UP:
-   1. Open your Google Sheet → Extensions → Apps Script
-   2. Paste the contents of APPS_SCRIPT.js
-   3. Deploy as Web App (Execute as: Me, Access: Anyone)
-   4. Copy the deployment URL and paste it below as SCRIPT_URL
+   The POST is a CORS "simple request" (URL-encoded body, no custom headers),
+   so the script's JSON reply is readable: the position comes back in the
+   same response that wrote the row, and repeat sign-ups are recognised.
+   Works with the original script (v1: {success, count, duplicate}) and with
+   v2 ({ok, position, duplicate, v: 2}); the city step needs v2.
    ========================================================== */
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhJye9SV5OThRyqiYKhGPPcFb_V1doSXBs83ONe2yj2MIEzHbee5bIiUDg8i1YrzMG/exec';
+import { CONFIG } from './config.js';
 
-/* ── Helper: fetch current count (GET) ─────────────────── */
-async function fetchCount() {
-  // Guard only fires when the URL is still the default placeholder
-  if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return null;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const JOIN_KEY = 'outdoor-join';
+const fmt = (n) => Number(n).toLocaleString('en-IN');
+
+/* ── Count ─────────────────────────────────────────────────────── */
+export async function fetchCount() {
   try {
-    const res  = await fetch(SCRIPT_URL, { method: 'GET', mode: 'cors' });
+    const res = await fetch(CONFIG.scriptUrl, { method: 'GET' });
     const data = await res.json();
     return typeof data.count === 'number' ? data.count : null;
-  } catch {
+  } catch (e) {
     return null;
   }
 }
 
-/* ── Helper: update count displays on the current page ─── */
-async function refreshCount() {
-  const count = await fetchCount();
-  if (count === null) return;
-  document.querySelectorAll('[id$="-count"], .count-num').forEach(el => {
-    el.textContent = count.toLocaleString('en-IN');
+/** Fill every [data-count]; reveal its [data-count-wrap] only once there is a number. */
+export function initCount() {
+  const slots = document.querySelectorAll('[data-count]');
+  if (!slots.length) return;
+  fetchCount().then((n) => {
+    if (n === null) return;
+    slots.forEach((el) => { el.textContent = fmt(n); });
+    document.querySelectorAll('[data-count-wrap]').forEach((w) => w.classList.remove('is-loading'));
   });
 }
 
-/* ── Helper: submit form then redirect to thank-you page ── */
-async function submitForm(name, email, msgEl, btn) {
-  // Guard only fires when the URL is still the default placeholder
-  if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showMsg(msgEl, '⚠ Script URL not configured yet.', 'error');
-    return;
-  }
+/* ── Join form ─────────────────────────────────────────────────── */
+function setMessage(form, text, isError) {
+  const msg = form.querySelector('[data-form-msg]');
+  if (!msg) return;
+  msg.textContent = text;
+  msg.classList.toggle('is-error', !!isError);
+}
+function invalid(form, input, text) {
+  input.setAttribute('aria-invalid', 'true');
+  input.focus();
+  setMessage(form, text, true);
+}
 
-  const body = new URLSearchParams({ name: name.trim(), email: email.trim() }).toString();
+async function onSubmit(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const nameInput = form.elements.namedItem('name');
+  const emailInput = form.elements.namedItem('email');
+  const trap = form.elements.namedItem('company');
+  const button = form.querySelector('button[type="submit"]');
+  [nameInput, emailInput].forEach((el) => el.removeAttribute('aria-invalid'));
 
-  // mode: 'no-cors' bypasses CORS preflight — response will be opaque (that's fine)
+  const name = nameInput.value.trim().replace(/\s+/g, ' ');
+  const email = emailInput.value.trim();
+  if (!name) return invalid(form, nameInput, 'Please enter your name.');
+  if (!EMAIL_RE.test(email)) return invalid(form, emailInput, 'Please enter a valid email address.');
+
+  const label = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Joining…';
+  setMessage(form, '');
+
   try {
-    await fetch(SCRIPT_URL, {
+    const res = await fetch(CONFIG.scriptUrl, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
+      body: new URLSearchParams({ name, email, company: trap ? trap.value : '' }),
     });
+    const data = await res.json();
+    if (!(data.ok || data.success)) throw new Error(data.error || 'rejected');
 
-    // Briefly update button state while we fetch the position
-    if (btn) {
-      btn.querySelector('.btn-text').textContent = 'You\'re in ✓';
-      btn.style.background = 'var(--green)';
-    }
+    // v2 returns the row's own position, also for a repeat sign-up. v1 only
+    // returns the total, which is the position of a NEW row and wrong for a repeat.
+    const position = data.position ?? (data.duplicate ? null : data.count);
+    try { sessionStorage.setItem(JOIN_KEY, JSON.stringify({ email, v: data.v || 1 })); } catch (e) { /* private mode */ }
 
-    // Fetch count → this is the user's waitlist position
-    const count = await fetchCount();
-
-    // Redirect to the thank-you page with name + position as URL params
-    const redirectParams = new URLSearchParams({ name: name.trim() });
-    if (count !== null) redirectParams.set('position', count);
-    window.location.href = 'thank-you.html?' + redirectParams.toString();
-
-  } catch (err) {
-    showMsg(msgEl, '❌ Something went wrong. Please try again.', 'error');
-    if (btn) {
-      btn.disabled = false;
-      btn.querySelector('.btn-text').textContent = 'Get early access';
-    }
+    const query = new URLSearchParams({ name: name.split(' ')[0] });
+    if (Number(position) > 0) query.set('position', String(position));
+    if (data.duplicate) query.set('again', '1');
+    window.location.href = `thank-you.html?${query}`;
+  } catch (e) {
+    button.disabled = false;
+    button.textContent = label;
+    setMessage(form, "We couldn't add you just now. Check your connection and try again.", true);
   }
 }
 
-function showMsg(el, text, type) {
-  if (!el) return;
-  el.textContent = text;
-  el.className = 'form-msg ' + type;
+export function initForms() {
+  document.querySelectorAll('form[data-waitlist]').forEach((form) => {
+    form.addEventListener('submit', onSubmit);
+    form.querySelectorAll('.input').forEach((input) => input.addEventListener('input', () => {
+      input.removeAttribute('aria-invalid');
+      setMessage(form, '');
+    }));
+  });
 }
 
-/* ── Attach to any .waitlist-form on the page ─────────── */
-document.addEventListener('DOMContentLoaded', function () {
+/* ── Thank-you page ────────────────────────────────────────────── */
+function ordinalLine(position, again) {
+  const n = `#${fmt(position)}`;
+  return again ? ['You were already on the list, at ', n, '.'] : ["You're ", n, ' on the list.'];
+}
 
-  // Load live count on page load
-  refreshCount();
+export function initThankYou() {
+  const params = new URLSearchParams(window.location.search);
+  const name = (params.get('name') || '').trim().slice(0, 40);
+  const position = Number(params.get('position'));
+  const again = params.get('again') === '1';
 
-  document.querySelectorAll('.waitlist-form').forEach(form => {
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
+  const nameEl = document.querySelector('[data-ty-name]');
+  if (nameEl) {
+    if (name) nameEl.textContent = name;
+    else nameEl.hidden = true;
+  }
+  const line = document.querySelector('[data-ty-line]');
+  if (line) {
+    line.replaceChildren();
+    if (position > 0) {
+      const [a, n, b] = ordinalLine(position, again);
+      const strong = document.createElement('b');
+      strong.textContent = n;
+      line.append(a, strong, b);
+    } else {
+      line.textContent = again ? 'You were already on the list.' : "You're on the list.";
+    }
+  }
 
-      const nameEl  = form.querySelector('input[name="name"]');
-      const emailEl = form.querySelector('input[name="email"]');
-      const msgEl   = form.querySelector('.form-msg');
-      const btn     = form.querySelector('button[type="submit"]');
+  initShare();
+  initCity();
+}
 
-      const name  = nameEl  ? nameEl.value.trim()  : '';
-      const email = emailEl ? emailEl.value.trim() : '';
-
-      // Basic validation
-      if (!name) {
-        nameEl.focus();
-        showMsg(msgEl, 'Please enter your name.', 'error');
-        return;
+function initShare() {
+  const text = `I just joined the Outdoor waitlist, one app for every sport. Follow your teams, catch the day's news and book a court: ${CONFIG.siteUrl}`;
+  const wa = document.querySelector('[data-share-whatsapp]');
+  if (wa) wa.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  const copy = document.querySelector('[data-share-copy]');
+  if (copy) {
+    copy.addEventListener('click', async () => {
+      const original = copy.textContent;
+      try {
+        await navigator.clipboard.writeText(CONFIG.siteUrl);
+        copy.textContent = 'Link copied';
+      } catch (e) {
+        copy.textContent = CONFIG.siteUrl;
       }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        emailEl.focus();
-        showMsg(msgEl, 'Please enter a valid email address.', 'error');
-        return;
-      }
-
-      // Loading state
-      if (btn) {
-        btn.disabled = true;
-        const textEl = btn.querySelector('.btn-text');
-        if (textEl) textEl.textContent = 'Submitting…';
-      }
-      showMsg(msgEl, '', '');
-
-      await submitForm(name, email, msgEl, btn);
-      // Note: on success we redirect to thank-you.html, so no need to clear inputs here
+      setTimeout(() => { copy.textContent = original; }, 2200);
     });
-  });
+  }
+}
 
-});
+/* City: one optional question, saved to the same row (APPS_SCRIPT.js v2). */
+function initCity() {
+  const box = document.querySelector('[data-city]');
+  if (!box) return;
+  let join = null;
+  try { join = JSON.parse(sessionStorage.getItem(JOIN_KEY) || 'null'); } catch (e) { join = null; }
+  if (!join || join.v < 2 || !join.email) return;   // needs the v2 script and this visitor's email
+  box.hidden = false;
+
+  const status = box.querySelector('[data-city-status]');
+  const otherWrap = box.querySelector('[data-city-other]');
+  const otherInput = otherWrap?.querySelector('input');
+  const buttons = box.querySelectorAll('[data-city-value]');
+
+  const save = async (city) => {
+    buttons.forEach((b) => { b.disabled = true; });
+    status.textContent = 'Saving…';
+    try {
+      const res = await fetch(CONFIG.scriptUrl, {
+        method: 'POST',
+        body: new URLSearchParams({ action: 'city', email: join.email, city }),
+      });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'rejected');
+      box.querySelector('[data-city-ask]').hidden = true;
+      status.textContent = `Saved: ${city}. Thank you.`;
+      try { sessionStorage.removeItem(JOIN_KEY); } catch (e) { /* ignore */ }
+    } catch (e) {
+      buttons.forEach((b) => { b.disabled = false; });
+      status.textContent = "That didn't save. Try once more?";
+    }
+  };
+
+  buttons.forEach((btn) => btn.addEventListener('click', () => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+    if (btn.dataset.cityValue === 'other') {
+      otherWrap.hidden = false;
+      otherInput.focus();
+      return;
+    }
+    otherWrap.hidden = true;
+    save(btn.dataset.cityValue);
+  }));
+  otherWrap?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const city = otherInput.value.trim().replace(/\s+/g, ' ').slice(0, 40);
+    if (city) save(city);
+    else otherInput.focus();
+  });
+}
