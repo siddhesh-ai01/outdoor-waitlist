@@ -1,74 +1,56 @@
 /* ==========================================================
-   OUTDOOR — First-visit logo reveal
-   The app's launch-splash Lottie (outdoor-app/assets/splash): the O and the
-   door open into the wordmark. Like the app's handoff (UI guidelines §40), a
-   still of frame 0 is on screen from the first paint, and the player takes
-   over in the same pixels once it has loaded.
-
-   Plays once per visitor, cut at frame 126 as the app does. Skipped under
-   reduced motion, and any tap, key or scroll ends it early.
-   The <head> script adds html.intro; nothing here runs without it.
+   OUTDOOR — Kick-off countdown (first visit to Home only)
+   "KICK-OFF IN 3 · 2 · 1 · GO", then the cover wipes up. The <head> script
+   adds html.intro only on a first visit without reduced motion; any tap, key
+   or scroll ends it early, and reveals wait until it has gone.
    ========================================================== */
 
-const LOTTIE_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie_light.min.js';
-const LOTTIE_SRI = 'sha384-Vtbz3QbtSBqleuQry6kQy5smig1gPZCXUoTFN7RmN9QW47xpEDsV/J1w0Pw0rDJu';
-const SEEN_KEY = 'outdoor-intro';
-const LAST_FRAME = 126;
+import { holdReveals } from './motion.js';
 
-function loadPlayer() {
-  if (window.lottie) return Promise.resolve(window.lottie);
-  return new Promise((resolve, reject) => {
-    const s = document.createElement('script');
-    s.src = LOTTIE_SRC;
-    s.integrity = LOTTIE_SRI;
-    s.crossOrigin = 'anonymous';
-    s.onload = () => (window.lottie ? resolve(window.lottie) : reject(new Error('lottie missing')));
-    s.onerror = reject;
-    document.head.appendChild(s);
-  });
-}
+const SEEN_KEY = 'outdoor-intro';
 
 export function initIntro() {
   const root = document.documentElement;
   if (!root.classList.contains('intro')) return;
-  const overlay = document.getElementById('intro-overlay');
-  const stage = document.getElementById('intro-stage');
-  if (!overlay || !stage) { root.classList.remove('intro'); return; }
+  const el = document.querySelector('.intro-overlay');
+  if (!el) { root.classList.remove('intro'); return; }
+  root.classList.add('intro-js');
+  holdReveals(true);
 
-  let done = false;
-  let anim = null;
+  const num = el.querySelector('[data-intro-num]');
+  const dots = el.querySelectorAll('[data-intro-dot]');
+  const steps = ['3', '2', '1', 'GO'];
+  let i = 0, done = false, timer = 0;
+
   const finish = () => {
     if (done) return;
     done = true;
+    clearTimeout(timer);
     try { localStorage.setItem(SEEN_KEY, '1'); } catch (e) { /* private mode */ }
-    root.classList.add('intro-out');
-    setTimeout(() => {
-      root.classList.remove('intro', 'intro-out');
-      if (anim) anim.destroy();
-      overlay.remove();
-    }, 420);
+    const wipe = el.animate
+      ? el.animate([{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], { duration: 800, easing: 'cubic-bezier(0.76,0,0.24,1)', fill: 'forwards' })
+      : null;
+    setTimeout(() => holdReveals(false), 260);
+    const end = () => { root.classList.remove('intro', 'intro-js'); el.remove(); };
+    if (wipe) wipe.onfinish = end; else end();
   };
 
-  // Never hold the page: if the player isn't running soon, show the site.
-  const failsafe = setTimeout(finish, 1800);
+  const next = () => {
+    if (done) return;
+    if (i >= steps.length) { finish(); return; }
+    num.textContent = steps[i];
+    num.classList.toggle('is-go', steps[i] === 'GO');
+    dots[i]?.classList.add('on');
+    num.animate?.([
+      { transform: 'scale(1.7)', opacity: 0 },
+      { transform: 'scale(1)', opacity: 1, offset: 0.4 },
+      { transform: 'scale(0.94)', opacity: 1 },
+    ], { duration: 440, easing: 'cubic-bezier(0.33,1,0.68,1)', fill: 'forwards' });
+    i++;
+    timer = setTimeout(next, i === steps.length ? 560 : 440);
+  };
+
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach((type) =>
     window.addEventListener(type, finish, { once: true, passive: true }));
-
-  const theme = root.dataset.theme === 'light' ? 'light' : 'dark';
-  const data = fetch(new URL(`../assets/lottie/splash-${theme}.json`, import.meta.url)).then((r) => r.json());
-
-  Promise.all([loadPlayer(), data]).then(([lottie, animationData]) => {
-    if (done) return;
-    anim = lottie.loadAnimation({ container: stage, renderer: 'svg', loop: false, autoplay: false, animationData });
-    anim.addEventListener('DOMLoaded', () => {
-      if (done) return;
-      clearTimeout(failsafe);
-      stage.querySelector('.intro-still')?.remove();
-      anim.play();
-      setTimeout(finish, 3200);
-    });
-    anim.addEventListener('enterFrame', (e) => {
-      if (e.currentTime >= LAST_FRAME) { anim.pause(); setTimeout(finish, 160); }
-    });
-  }).catch(finish);
+  timer = setTimeout(next, 200);
 }

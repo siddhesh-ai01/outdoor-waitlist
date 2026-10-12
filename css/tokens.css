@@ -1,111 +1,137 @@
 /* ==========================================================
-   OUTDOOR — Design tokens (brand v2.1)
-   Source of truth: outdoor-app/docs/Outdoor_Brand_Palette.md
-   Dark is the default; [data-theme="light"] overrides.
+   OUTDOOR — Design tokens
+   Names and values from the Outdoor design system the v2 prototype was built
+   with (Claude Design, read out of outdoor-app/src/theme). Dark is the default
+   and the product: it is declared on :root AND on [data-theme="dark"], and
+   light exists only under [data-theme="light"].
+
+   Composites that reference a themed colour (shadows, gradients) are declared
+   in BOTH theme blocks: var() is substituted where a composite is declared,
+   so one declared on :root alone would freeze the dark value in light mode.
    ========================================================== */
 
 :root {
-  color-scheme: dark;
+  /* Shared semantics, identical in both modes */
+  --stadium-orange: #FF4E00;
+  --match-green:    #06C27A;
+  --live-blue:      #1EAEFF;
+  --trophy-gold:    #F7B300;
+  --loss-red:       #FF3B3B;
+  --court-teal:     #00BFA5;
+  --depth-indigo:   #6C3FC4;
 
-  /* Surfaces — Part 2.1 */
-  --bg:        #0A0A0A;            /* Pitch Black */
-  --deep:      #111111;            /* inputs, nested layers */
-  --surface:   #1C1C1C;            /* cards */
-  --elevated:  #242424;
-  --hover:     #252525;
-  --border:    #1E1E1E;            /* rules on the page */
-  --rim:       rgba(255, 255, 255, 0.10);  /* a dark card is lifted by its rim, not a shadow */
-  --divider:   rgba(255, 255, 255, 0.07);  /* rules inside a card */
-  --outline:   #2A2A2A;            /* rim of an unselected control */
+  /* Sport accents (mode-independent) */
+  --sport-cricket:   #F7B300;
+  --sport-football:  #06C27A;
+  --sport-tennis:    #1EAEFF;
+  --sport-f1:        #FF3B3B;
+  --sport-chess:     #6C3FC4;
+  --sport-badminton: #00BFA5;
+  --sport-hockey:    #3EA845;
+  --sport-athletics: #E5197F;
+  --sport-kabaddi:   #C026D3;
 
-  /* Text — Part 2.2 */
-  --text:      #F2EDE8;
-  --body:      #C8C0B8;
-  --muted:     #888888;
-  --hint:      #444444;            /* decoration only: fails contrast as text */
+  /* Type: six families, each with one job */
+  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-hero:    'Satoshi', 'DM Sans', -apple-system, sans-serif;           /* hero lines, wordmark */
+  --font-display: 'Bebas Neue', 'DM Sans', Impact, sans-serif;               /* numbers */
+  --font-label:   'Space Grotesk', 'DM Sans', ui-monospace, monospace;       /* eyebrows, chips, data */
+  --font-serif:   'Cormorant Garamond', Georgia, 'Times New Roman', serif;   /* editorial accents */
+  --font-script:  'Dancing Script', cursive;                                 /* the tagline, a visitor's name */
 
-  /* Shared accents — Part 4 (mode-independent) */
-  --orange:    #FF4E00;            /* Stadium Orange: primary CTA + wordmark only */
-  --on-orange: #FFFFFF;
-  --green:     #06C27A;            /* Match Green — success, venues */
-  --blue:      #1EAEFF;            /* Live Blue — live, scores, links */
-  --gold:      #F7B300;            /* Trophy Gold — news, featured */
-  --red:       #FF3B3B;            /* Loss Red — errors */
-  --teal:      #00BFA5;            /* Court Teal — community */
-  --indigo:    #6C3FC4;            /* Depth Indigo — Phase 3, analytics */
-
-  /* Accents used as FOREGROUND (text, thin glyphs). Light mode carries them darker. */
-  --link:       #1EAEFF;
-  --green-text: #06C27A;
-  --gold-text:  #F7B300;
-  --red-text:   #FF3B3B;
-
-  /* Elevation */
-  --shadow-card: none;
-  --glow-cta:    0 0 20px rgba(255, 78, 0, 0.25);   /* hero CTA only */
-  --glass:       rgba(10, 10, 10, 0.62);
-  --glass-sheen: rgba(255, 255, 255, 0.06);
-  --scrim:       rgba(0, 0, 0, 0.6);
-
-  /* Dot field — Part 10 (as built in spec.ts) */
-  --field-dot:   #F2EDE8;
-
-  /* Type */
-  --font-display:   'Satoshi', 'DM Sans', system-ui, sans-serif;
-  --font-body:      'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-num:       'Bebas Neue', 'DM Sans', system-ui, sans-serif;
-  --font-label:     'Space Grotesk', 'DM Sans', system-ui, sans-serif;
-  --font-editorial: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
-  --font-sign:      'Dancing Script', 'Segoe Script', cursive;
-
-  /* Spacing (4px base) */
-  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px; --s5: 24px;
-  --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
-
-  /* Radii */
-  --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-xl: 28px; --r-full: 9999px;
-
-  /* Motion — app theme/motion.ts: 220ms ease-out is the house standard */
-  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
-  --d-fast:    150ms;
-  --d-base:    220ms;
-  --d-slow:    420ms;
+  /* Motion: everything eases out */
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
 
   /* Layout */
-  --max-w:  1180px;
-  --gutter: clamp(20px, 5vw, 56px);
-  --nav-h:  68px;
-  --section-pad: clamp(88px, 11vw, 160px);
+  --max-w:  1280px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --hdr-h:  60px;
+  --hdr-top: 14px;
+}
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --background:       #0A0A0A;
+  --surface:          #1C1C1C;
+  --elevated-surface: #242424;
+  --deep-surface:     #111111;
+  --hover:            #252525;
+  --border:           #1E1E1E;
+
+  --text-primary: #F2EDE8;
+  --text-body:    #C8C0B8;
+  --text-muted:   #888888;
+  --text-hint:    #444444;
+
+  --orange-glow: rgba(255, 78, 0, 0.25);
+
+  /* Liquid glass: thin body, the edges do the work */
+  --glass-blur:         38px;
+  --glass-depth-top:    rgba(255, 255, 255, 0.05);
+  --glass-depth-bottom: rgba(255, 255, 255, 0.01);
+  --glass-border:       rgba(255, 255, 255, 0.18);
+  --glass-inner-rim:    rgba(255, 255, 255, 0.08);
+  --glass-sheen-0:      rgba(255, 255, 255, 0.55);
+  --glass-sheen-1:      rgba(255, 255, 255, 0.06);
+  --glass-underglow-1:  rgba(255, 255, 255, 0.035);
+  --glass-underglow-2:  rgba(255, 255, 255, 0.11);
+  --glass-shadow-color: rgba(0, 0, 0, 0.55);
+
+  /* Raised pill */
+  --pill-surface-top:    #2B2B2B;
+  --pill-surface-bottom: #1A1A1A;
+  --pill-rim:            rgba(255, 255, 255, 0.09);
+  --pill-shadow-color:   rgba(0, 0, 0, 0.45);
+
+  /* The floating nav's active capsule inverts per theme */
+  --nav-capsule:      #F2EDE8;
+  --nav-capsule-text: #0A0A0A;
+
+  --shadow-floating: 0 10px 26px var(--glass-shadow-color);
+  --shadow-pill:     0 2px 6px var(--pill-shadow-color);
+  --gradient-pill:   linear-gradient(var(--pill-surface-top), var(--pill-surface-bottom));
 }
 
 [data-theme="light"] {
   color-scheme: light;
 
-  --bg:        #F5F3E8;            /* Warm Cream */
-  --deep:      #EDE8DC;
-  --surface:   #FFFFFF;
-  --elevated:  #FAFAFA;
-  --hover:     #F0F2F5;
-  --border:    #E0D8CE;
-  --rim:       #E0D8CE;
-  --divider:   #E0D8CE;
-  --outline:   #CFC5B6;
+  --background:       #F5F3E8;
+  --surface:          #FFFFFF;
+  --elevated-surface: #FAFAFA;
+  --deep-surface:     #EDE8DC;
+  --hover:            #F0F2F5;
+  --border:           #E0D8CE;
 
-  --text:      #0A0A0A;
-  --body:      #333333;
-  --muted:     #6E6A65;            /* brand #888 fails AA on cream at label sizes */
-  --hint:      #BBBBBB;
+  --text-primary: #0A0A0A;
+  --text-body:    #333333;
+  --text-muted:   #888888;
+  --text-hint:    #BBBBBB;
 
-  --link:       #0A6EA3;           /* Live Blue carried down to clear 4.5:1 on cream */
-  --green-text: #036E45;
-  --gold-text:  #7D5A00;
-  --red-text:   #BA0000;
+  --orange-glow: rgba(255, 78, 0, 0.15);
 
-  --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.08);
-  --glow-cta:    0 0 16px rgba(255, 78, 0, 0.15);
-  --glass:       rgba(245, 243, 232, 0.70);
-  --glass-sheen: rgba(255, 255, 255, 0.70);
-  --scrim:       rgba(0, 0, 0, 0.4);
+  --glass-blur:         42px;
+  --glass-depth-top:    rgba(255, 255, 255, 0.28);
+  --glass-depth-bottom: rgba(255, 255, 255, 0.12);
+  --glass-border:       rgba(0, 0, 0, 0.14);
+  --glass-inner-rim:    rgba(255, 255, 255, 0.75);
+  --glass-sheen-0:      rgba(255, 255, 255, 0.95);
+  --glass-sheen-1:      rgba(255, 255, 255, 0.24);
+  --glass-underglow-1:  rgba(0, 0, 0, 0.03);
+  --glass-underglow-2:  rgba(0, 0, 0, 0.08);
+  --glass-shadow-color: rgba(31, 26, 20, 0.20);
 
-  --field-dot:   #0A0A0A;
+  --pill-surface-top:    #FFFFFF;
+  --pill-surface-bottom: #F7F4EC;
+  --pill-rim:            rgba(31, 26, 20, 0.10);
+  --pill-shadow-color:   rgba(31, 26, 20, 0.14);
+
+  --nav-capsule:      #141414;
+  --nav-capsule-text: #FFFFFF;
+
+  --shadow-floating: 0 10px 26px var(--glass-shadow-color);
+  --shadow-pill:     0 2px 6px var(--pill-shadow-color);
+  --gradient-pill:   linear-gradient(var(--pill-surface-top), var(--pill-surface-bottom));
 }

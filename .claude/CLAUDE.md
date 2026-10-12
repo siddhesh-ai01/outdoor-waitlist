@@ -5,9 +5,12 @@
 
 @.claude/docs/site-brief.md
 
-> The brief predates brand v2.1. Where they disagree, **brand v2.1 wins**:
-> `C:\Users\Siddhesh\Documents\outdoor-app\docs\Outdoor_Brand_Palette.md`
-> (fonts, colours, the orange rule, the dot-matrix system in Part 10, the mascot in Part 11).
+> The brief predates everything below. The site is now a build of the founder's
+> **Claude Design prototype "Outdoor Website v2"** (project `62e6fc0e-4362-4e77-b666-2bbc08d0c68a`,
+> file `Outdoor Website v2.dc.html`; read it with DesignSync after `/design-login`).
+> Where the prototype and brand v2.1 disagree, **the prototype wins for the website**
+> (founder, 2026-10-11). Brand v2.1 still covers everything the prototype doesn't:
+> `C:\Users\Siddhesh\Documents\outdoor-app\docs\Outdoor_Brand_Palette.md`.
 
 
 ## Skills
@@ -17,92 +20,102 @@
 ## Stack
 
 Static HTML, CSS and ES modules, hosted on GitHub Pages (custom domain in `CNAME`).
-No build step: what is in the repo is what is served. The waitlist backend is a
-Google Apps Script web app writing to a Google Sheet.
+No build step: what is in the repo is what is served. No third-party requests except
+the Apps Script. The waitlist backend is a Google Apps Script web app writing to a Google Sheet.
 
 ## Project Structure
 
 ```
 outdoor-waitlist/
-├── index.html            ← Home: hero field · one app, four jobs · sports · long game · founder's note · join · next: story
-├── story.html            ← Our story (was About): opener · five apps fold into one · promises · long game · people · FAQ · say hello
-├── about.html            ← Redirect stub to story.html (keeps old links working)
-├── waitlist.html         ← Dedicated join page
-├── thank-you.html        ← Position, f1-flag mascot, optional city, WhatsApp share
+├── index.html            ← Home: LED board hero · ticker · manifesto · four quarters · squad · Lights out · Pune map · Be first in · next
+├── story.html            ← Our story: opener (orbit) · half-time talk · red cards · three phases · Ask the ref (FAQ) · next
+├── waitlist.html         ← The waitlist pass: form + live card; joins in place (stamp, confetti, share)
+├── 404.html              ← VAR "Offside." error page; GitHub Pages serves it at any missing path (root-relative URLs only). Never linked.
 ├── privacy.html · terms.html · delete-account.html   ← Legal pages (also the app's store links)
-├── 404.html              ← Served by GitHub Pages for any missing path (root-relative URLs only)
-├── APPS_SCRIPT.js        ← Waitlist backend, v2 (paste into Apps Script; deploy steps inside)
+├── about.html · thank-you.html   ← Redirect stubs (→ story.html, → waitlist.html)
+├── APPS_SCRIPT.js        ← Waitlist backend, v1 — the deployed one (setup steps inside)
 ├── favicon.svg · site.webmanifest · robots.txt · sitemap.xml · CNAME
 │
 ├── css/
-│   ├── tokens.css        ← Brand v2.1 tokens; dark default, [data-theme="light"] overrides
-│   ├── base.css          ← Fonts, reset, type roles, buttons, glass header, phone dock, forms, phases, footer
-│   ├── home.css · story.css · pages.css
+│   ├── tokens.css        ← Design-system tokens from the prototype; dark on :root, [data-theme="light"] overrides
+│   ├── base.css          ← Fonts, reset, glass header, footer, buttons, field, reveals, cursor, page transition
+│   ├── home.css · story.css · pages.css (pass · 404 · legal)
 │
 ├── js/                   ← ES modules; each page loads one entry module
 │   ├── config.js         ← Apps Script URL, LAUNCH SWITCH (storeUrl), email, socials
-│   ├── site.js           ← Every page: theme, header, CTA hand-off, reveals, launch switch, mascots
-│   ├── field.js          ← The dot field, ported from the app + the rotating LED mascot silhouette
-│   ├── mascot.js         ← SVG mascot player (the app's five clips)
-│   ├── intro.js          ← First-visit logo reveal (the app's launch-splash Lottie)
-│   ├── waitlist.js       ← Count, join form, thank-you page, city step, share
-│   └── home.js · story.js · join.js · thanks.js · notfound.js   ← page entry modules
+│   ├── site.js           ← Every page: theme, field, header clock + capsule, footer tagline, launch switch
+│   ├── motion.js         ← One scroll frame loop, [data-rv] reveals, count-up, magnetic, tilt, cursor ring
+│   ├── transition.js     ← "Lanes" page transition across real pages (sessionStorage flag + <head> class)
+│   ├── field.js          ← The app's dot field, fixed to the screen
+│   ├── fx.js             ← LED board, squad huddles, confetti (ported from the prototype's outdoor-fx.js)
+│   ├── intro.js          ← First-visit "KICK-OFF IN 3·2·1·GO" countdown (Home only)
+│   ├── india.js          ← GENERATED: India's official outline + city points for the map
+│   ├── waitlist.js       ← Apps Script client: count + join
+│   └── home.js · story.js · join.js · notfound.js · legal.js   ← page entry modules
 │
 └── assets/
-    ├── fonts/            ← WOFF2: DM Sans, Satoshi, Bebas Neue, Space Grotesk, Cormorant Garamond, Dancing Script
-    ├── mascot/           ← run · cycle · keepy-uppy · tennis-bounce · f1-flag (from outdoor-app/src/components/mascot)
-    ├── lottie/           ← splash-dark.json · splash-light.json (from outdoor-app/assets/splash)
+    ├── fonts/            ← WOFF2: DM Sans, Satoshi, Bebas Neue, Space Grotesk, Cormorant Garamond (+ Medium Italic), Dancing Script
     └── images/           ← icons/ (favicon PNGs, touch icon) · og/outdoor-og.png (share card)
 ```
 
-## Decisions to keep (founder, 2026-10-10)
+## Decisions to keep (founder, 2026-10-11)
 
-- **Hero silhouette = the five mascot clips as an orange LED dot figure**, rotating
-  run → cycle → keepy-uppy → tennis-bounce → f1-flag. This deliberately departs from
-  the app's mascot.md (which keeps the solid mascot and the dot silhouette apart) — it is
-  a website decision, don't "fix" it.
-- **Copy frames Outdoor as an all-sports app.** Cricket, football, tennis, F1 and chess
-  are "in, more on the way" — never "only five sports", and don't repeat the number.
-- **The waitlist count is always shown.**
-- **Thank-you asks one optional question: "Where do you play?"** Never ask which sports
-  the visitor follows.
-- About is called **Story**. Team info stays generic (no named team, no hiring line).
+- **Build the prototype as designed.** Where it bends brand v2.1, it stays bent: the header
+  Join is always orange; the Story headline is Satoshi with "people." in italic Cormorant;
+  the Story orbit dot is orange; the footer tagline is Dancing Script; eyebrows are Space
+  Grotesk and numbers Bebas Neue alongside the section's other families.
+- **No mascot on the site.** The LED stadium board replaced the mascot hero (this supersedes
+  the 2026-10-10 "LED mascot silhouette" decision).
+- **No city question, anywhere.** The Apps Script stays at v1 and the founder won't redeploy it.
+  The pass card's third field is SPORTS · ALL, not a city.
+- **Pune launches first** ("First whistle in Pune"). The map must use India's official outline
+  (Natural Earth admin-0, India point of view, in `js/india.js`) — never a world-atlas outline,
+  which drops PoK and Aksai Chin.
+- **Claims:** free to use, squad planning + chat, and splitting a booking are true at launch.
+  Following *local leagues* is not — don't claim it (no Sunday-league examples).
+- **The prototype's review lines are not site copy** (2026-10-12): hints that narrate its own
+  interactions ("Hover the board", "Scroll, and watch the city…", "Your waitlist card fills in
+  as you type", "Half-time talk below") and the footer's "Lost? Try the 404" link were removed —
+  don't bring them back. Real instructions stay ("Tap to start", "Tap to skip").
+- **Copy frames Outdoor as an all-sports app**; never "only five sports".
+- The waitlist count shows on the Home hero, from the script; the line stays hidden if it can't load.
+- About is called **Story**. No named team section.
 - Dark is the default theme; a visitor's choice is remembered (`localStorage` key `outdoor-theme`).
 - Instagram and YouTube stay hidden until they exist (add them to `CONFIG.social`).
 
-## Rules this site follows
+## How the site is built
 
-- **Fonts:** DM Sans everywhere, plus at most ONE accent family per section — Satoshi
-  (hero lines, wordmark), Bebas Neue (numbers), Space Grotesk (chips ≤15px), Cormorant
-  Garamond (one quote), Dancing Script (a visitor's own first name only).
-- **Orange:** the primary button and the wordmark's O. One orange action per screen —
-  the header's Join button stays outlined while the page's own CTA or form is visible
-  (`data-page-cta`, `data-cta-zone`). Links are Live Blue; labels are muted.
-- **Dot field:** one canvas, one 16px grid (spec.ts values). Dots never move off-grid;
-  only opacity and size change. No grain overlays.
+- **Fonts by role:** DM Sans (body, section heads, wordmark), Satoshi (hero lines), Bebas Neue
+  (numbers, the LED board), Space Grotesk (eyebrows, chips, labels ≤12px), Cormorant Garamond
+  (editorial accents), Dancing Script (footer tagline and the visitor's own first name).
+- **Dot field:** one canvas fixed to the screen (`field.js`, the app's spec values). Solid
+  sections (`background: var(--background)`) cover it; heroes are see-through and carry
+  `data-field-zone`, and the blink loop only runs while one is on screen.
+- **Motion:** `[data-rv="n"]` reveals (80 ms steps, `data-rvy` rise), the lanes page transition,
+  the first-visit countdown, cursor ring + magnetic buttons + tilt (fine pointers only). All of it
+  is off under reduced motion, and content is visible without JS (CSS failsafes).
+- **Phones:** one breakpoint at 860px (as in the prototype). Check 320, 360, 390, 768 and 1024+,
+  in both themes; no sideways scroll.
 - **Keep it sparse:** a fact appears once per page; no unverifiable numbers or claims.
-- **Reduced motion:** still frames (run frame 0), no intro, no blinking; pointer glow stays.
+- **Class-name traps:** `<html>` carries state classes (`js`, `intro`, `nav-in`, `pt-cover`,
+  `pt-out`, `has-cursor`, `rv-ready`, `is-launched`) — never give an element one of those names
+  (`.intro` once matched `<html>` and blanked the page). Generic modifiers collide too: `.next`
+  is the "Next up" card, so the timeline uses `.is-next`.
 
-## Waitlist backend (APPS_SCRIPT.js v2)
+## Waitlist backend (APPS_SCRIPT.js v1)
 
-The site reads the script's JSON reply (the POST is a CORS simple request), so it
-shows real positions and recognises repeat sign-ups. It works with v1 too; the city
-step appears only once v2 is live (its replies carry `v: 2`).
+The repo holds the deployed script. GET returns `{count}`; POST (a CORS simple request)
+returns `{success, count}` or `{success, duplicate: true, count}`. A new sign-up's position
+is `count`; a repeat has no position. `js/waitlist.js` would also read a newer script's
+`{ok, position, duplicate}`.
 
-To update the live deployment **without changing its URL**: add `City` in D1 of the
-sheet → Extensions → Apps Script → replace the code → Save → Deploy → Manage
-deployments → Edit → Version: New version → Deploy. A *new* deployment gets a new URL,
-which then goes into `js/config.js`.
-
-**Never send test sign-ups to the real script.** Test with the Apps Script mocked
-(e.g. Chrome DevTools Protocol `Fetch.enable` on `*script.google.com*`).
+**Never send test sign-ups to the real script.** Test with it mocked (Chrome DevTools
+Protocol `Fetch.enable` on `*script.google.com*`, answering with the shapes above).
 
 ## Still to fill in
 
 - `privacy.html`, `terms.html`, `delete-account.html`: the `[Legal name]`,
   `[Registered address]`, `[City]`, `[Grievance officer name]` and
   `[Developer name on Google Play]` placeholders (marked `TODO(founder)`).
-- App screenshots for the home phone frame (Following, News Flash, Venues; dark mode).
-  Until then the frame shows stand-ins drawn from the app's onboarding previews.
-- Founder photo for the Story page (the avatar shows an initial until then).
-- Launch day: set `CONFIG.storeUrl` in `js/config.js`.
+- Launch day: set `CONFIG.storeUrl` in `js/config.js` (every Join CTA, the ring text and the
+  pass page switch to "Get the app").
