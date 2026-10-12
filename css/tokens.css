@@ -1,82 +1,137 @@
 /* ==========================================================
-   OUTDOOR — Design Tokens
-   All CSS custom properties. Import first.
+   OUTDOOR — Design tokens
+   Names and values from the Outdoor design system the v2 prototype was built
+   with (Claude Design, read out of outdoor-app/src/theme). Dark is the default
+   and the product: it is declared on :root AND on [data-theme="dark"], and
+   light exists only under [data-theme="light"].
+
+   Composites that reference a themed colour (shadows, gradients) are declared
+   in BOTH theme blocks: var() is substituted where a composite is declared,
+   so one declared on :root alone would freeze the dark value in light mode.
    ========================================================== */
 
 :root {
-  /* --- Dark mode (default) --- */
-  --bg:        #0A0A0A;
-  --layer:     #141414;
-  --surface:   #1C1C1C;
-  --hover:     #252525;
-  --border:    #1E1E1E;
+  /* Shared semantics, identical in both modes */
+  --stadium-orange: #FF4E00;
+  --match-green:    #06C27A;
+  --live-blue:      #1EAEFF;
+  --trophy-gold:    #F7B300;
+  --loss-red:       #FF3B3B;
+  --court-teal:     #00BFA5;
+  --depth-indigo:   #6C3FC4;
 
-  --text-primary: #F2EDC8;
-  --text-body:    #808080;
-  --text-hint:    #444444;
+  /* Sport accents (mode-independent) */
+  --sport-cricket:   #F7B300;
+  --sport-football:  #06C27A;
+  --sport-tennis:    #1EAEFF;
+  --sport-f1:        #FF3B3B;
+  --sport-chess:     #6C3FC4;
+  --sport-badminton: #00BFA5;
+  --sport-hockey:    #3EA845;
+  --sport-athletics: #E5197F;
+  --sport-kabaddi:   #C026D3;
 
-  /* --- Accent & semantic --- */
-  --orange:       #FF4E00;
-  --orange-tint:  rgba(255, 78, 0, 0.10);
-  --orange-glow:  rgba(255, 78, 0, 0.18);
-  --green:        #00C27A;
-  --green-tint:   rgba(0, 194, 122, 0.10);
-  --red:          #FF3B3B;
-  --blue:         #1EAEFF;
-  --blue-tint:    rgba(30, 174, 255, 0.10);
-  --gold:         #FFB300;
+  /* Type: six families, each with one job */
+  --font-sans:    'DM Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  --font-hero:    'Satoshi', 'DM Sans', -apple-system, sans-serif;           /* hero lines, wordmark */
+  --font-display: 'Bebas Neue', 'DM Sans', Impact, sans-serif;               /* numbers */
+  --font-label:   'Space Grotesk', 'DM Sans', ui-monospace, monospace;       /* eyebrows, chips, data */
+  --font-serif:   'Cormorant Garamond', Georgia, 'Times New Roman', serif;   /* editorial accents */
+  --font-script:  'Dancing Script', cursive;                                 /* the tagline, a visitor's name */
 
-  /* --- Typography --- */
-  --font:       'FK Grotesk', 'Helvetica Neue', Arial, sans-serif;
-  --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  --font-mono:  'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  /* Motion: everything eases out */
+  --ease-out-cubic: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
 
-  /* --- Spacing scale (base 4) --- */
-  --s1:  4px;
-  --s2:  8px;
-  --s3:  12px;
-  --s4:  16px;
-  --s5:  24px;
-  --s6:  32px;
-  --s7:  48px;
-  --s8:  64px;
-  --s9:  96px;
-  --s10: 128px;
-
-  /* --- Radii --- */
-  --r-sm:   4px;
-  --r-md:   8px;
-  --r-lg:   16px;
-  --r-xl:   24px;
-  --r-full: 9999px;
-
-  /* --- Easing --- */
-  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-snappy: cubic-bezier(0.83, 0, 0.17, 1);
-
-  /* --- Transitions --- */
-  --t-fast:   150ms var(--ease-out);
-  --t-base:   300ms var(--ease-out);
-  --t-slow:   600ms var(--ease-out);
-  --t-slower: 900ms var(--ease-out);
-
-  /* --- Layout --- */
-  --max-w: 1160px;
-  --nav-h: 68px;
-  --section-gap: clamp(80px, 10vw, 140px);
+  /* Layout */
+  --max-w:  1280px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --hdr-h:  60px;
+  --hdr-top: 14px;
 }
 
-/* Light mode overrides */
-[data-theme="light"] {
-  --bg:      #F5F0E8;
-  --layer:   #EDE7DC;
-  --surface: #FFFFFF;
-  --hover:   #EDE7DC;
-  --border:  #E0D4CE;
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
 
-  --text-primary: #0A0A2A;
+  --background:       #0A0A0A;
+  --surface:          #1C1C1C;
+  --elevated-surface: #242424;
+  --deep-surface:     #111111;
+  --hover:            #252525;
+  --border:           #1E1E1E;
+
+  --text-primary: #F2EDE8;
+  --text-body:    #C8C0B8;
+  --text-muted:   #888888;
+  --text-hint:    #444444;
+
+  --orange-glow: rgba(255, 78, 0, 0.25);
+
+  /* Liquid glass: thin body, the edges do the work */
+  --glass-blur:         38px;
+  --glass-depth-top:    rgba(255, 255, 255, 0.05);
+  --glass-depth-bottom: rgba(255, 255, 255, 0.01);
+  --glass-border:       rgba(255, 255, 255, 0.18);
+  --glass-inner-rim:    rgba(255, 255, 255, 0.08);
+  --glass-sheen-0:      rgba(255, 255, 255, 0.55);
+  --glass-sheen-1:      rgba(255, 255, 255, 0.06);
+  --glass-underglow-1:  rgba(255, 255, 255, 0.035);
+  --glass-underglow-2:  rgba(255, 255, 255, 0.11);
+  --glass-shadow-color: rgba(0, 0, 0, 0.55);
+
+  /* Raised pill */
+  --pill-surface-top:    #2B2B2B;
+  --pill-surface-bottom: #1A1A1A;
+  --pill-rim:            rgba(255, 255, 255, 0.09);
+  --pill-shadow-color:   rgba(0, 0, 0, 0.45);
+
+  /* The floating nav's active capsule inverts per theme */
+  --nav-capsule:      #F2EDE8;
+  --nav-capsule-text: #0A0A0A;
+
+  --shadow-floating: 0 10px 26px var(--glass-shadow-color);
+  --shadow-pill:     0 2px 6px var(--pill-shadow-color);
+  --gradient-pill:   linear-gradient(var(--pill-surface-top), var(--pill-surface-bottom));
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+
+  --background:       #F5F3E8;
+  --surface:          #FFFFFF;
+  --elevated-surface: #FAFAFA;
+  --deep-surface:     #EDE8DC;
+  --hover:            #F0F2F5;
+  --border:           #E0D8CE;
+
+  --text-primary: #0A0A0A;
   --text-body:    #333333;
+  --text-muted:   #888888;
   --text-hint:    #BBBBBB;
 
-  --orange-glow: rgba(255, 78, 0, 0.12);
+  --orange-glow: rgba(255, 78, 0, 0.15);
+
+  --glass-blur:         42px;
+  --glass-depth-top:    rgba(255, 255, 255, 0.28);
+  --glass-depth-bottom: rgba(255, 255, 255, 0.12);
+  --glass-border:       rgba(0, 0, 0, 0.14);
+  --glass-inner-rim:    rgba(255, 255, 255, 0.75);
+  --glass-sheen-0:      rgba(255, 255, 255, 0.95);
+  --glass-sheen-1:      rgba(255, 255, 255, 0.24);
+  --glass-underglow-1:  rgba(0, 0, 0, 0.03);
+  --glass-underglow-2:  rgba(0, 0, 0, 0.08);
+  --glass-shadow-color: rgba(31, 26, 20, 0.20);
+
+  --pill-surface-top:    #FFFFFF;
+  --pill-surface-bottom: #F7F4EC;
+  --pill-rim:            rgba(31, 26, 20, 0.10);
+  --pill-shadow-color:   rgba(31, 26, 20, 0.14);
+
+  --nav-capsule:      #141414;
+  --nav-capsule-text: #FFFFFF;
+
+  --shadow-floating: 0 10px 26px var(--glass-shadow-color);
+  --shadow-pill:     0 2px 6px var(--pill-shadow-color);
+  --gradient-pill:   linear-gradient(var(--pill-surface-top), var(--pill-surface-bottom));
 }

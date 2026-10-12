@@ -25,9 +25,7 @@
  * 7. Copy the "Web app URL" — it looks like:
  *      https://script.google.com/macros/s/XXXXXXXXXX/exec
  *
- * 8. Open js/waitlist.js and replace:
- *      const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
- *    with your actual URL.
+ * 8. Open js/config.js and set scriptUrl to your actual URL.
  *
  * That's it — the form is now live and submits go straight to the sheet.
  * Every new entry is a new row; the count auto-updates on the UI.

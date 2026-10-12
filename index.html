@@ -1,359 +1,364 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en-IN" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Outdoor</title>
-  <meta name="description" content="The complete sports ecosystem India forgot to build, until now. Follow, book, co-play, and watch — all in one app.">
-  <meta property="og:title" content="Outdoor — The Complete Sports Ecosystem">
-  <meta property="og:description" content="The complete sports ecosystem India forgot to build, until now.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Outdoor · Let's get out humans</title>
+  <meta name="description" content="Follow it. Book it. Play it. Together. Outdoor is one app for the fans, players and friends who make sport happen. Join the waitlist for early access.">
+  <link rel="canonical" href="https://www.theoutdoor.in/">
+  <meta name="theme-color" content="#0A0A0A">
   <meta property="og:type" content="website">
-  <link rel="icon" type="image/png" href="assets/images/logos/logo-light.png">
+  <meta property="og:site_name" content="Outdoor">
+  <meta property="og:title" content="Outdoor · Let's get out humans">
+  <meta property="og:description" content="Follow it. Book it. Play it. Together. One app for the fans, players and friends who make sport happen.">
+  <meta property="og:url" content="https://www.theoutdoor.in/">
+  <meta property="og:image" content="https://www.theoutdoor.in/assets/images/og/outdoor-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Outdoor wordmark on a dot-matrix field">
+  <meta property="og:locale" content="en_IN">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/DMSans-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <script>
+    (function () {
+      var d = document.documentElement, t = 'dark', rm = false, nav = false;
+      try { var s = localStorage.getItem('outdoor-theme'); if (s === 'light' || s === 'dark') t = s; } catch (e) {}
+      d.setAttribute('data-theme', t);
+      d.className += ' js';
+      try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      try { nav = !rm && sessionStorage.getItem('outdoor-nav') === '1'; } catch (e) {}
+      if (nav) d.className += ' nav-in';
+      try { if (!nav && !rm && !localStorage.getItem('outdoor-intro')) d.className += ' intro'; } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/global.css">
-  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="modulepreload" href="js/site.js">
+  <link rel="modulepreload" href="js/motion.js">
+  <link rel="modulepreload" href="js/field.js">
+  <link rel="modulepreload" href="js/fx.js">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Organization","name":"Outdoor","url":"https://www.theoutdoor.in/","logo":"https://www.theoutdoor.in/assets/images/icons/icon-512.png","slogan":"Let's get out humans","email":"team.outdoor.in@gmail.com","sameAs":["https://www.linkedin.com/company/theoutdoor/"]}
+  </script>
+  <script type="module" src="js/home.js"></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<div class="grain" aria-hidden="true"></div>
+<div class="pt" aria-hidden="true">
+  <span class="pt-lane" style="--i:0;--c:#FF4E00"></span><span class="pt-lane" style="--i:1;--c:#F7B300"></span><span class="pt-lane" style="--i:2;--c:#06C27A"></span><span class="pt-lane" style="--i:3;--c:#1EAEFF"></span><span class="pt-lane" style="--i:4;--c:#FF3B3B"></span><span class="pt-lane" style="--i:5;--c:#6C3FC4"></span>
+  <div class="pt-label">
+    <svg class="glyph" viewBox="78 36 302 430"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+    <span class="pt-kicker">NOW ENTERING</span>
+    <span class="pt-dest">HOME</span>
+  </div>
+</div>
 
-<!-- ═══════════ HEADER ═══════════ -->
-<header class="site-header" id="site-header">
-  <nav class="nav-inner">
-    <a href="index.html" class="logo-link" aria-label="Outdoor home">
-      <img src="assets/images/logos/logo-dark.png"
-           alt=""
-           class="logo-img"
-           id="header-logo">
-      <span class="logo-wordmark"><span class="logo-o">O</span>utdoor</span>
+<!-- First visit only: the kick-off countdown. -->
+<div class="intro-overlay" aria-hidden="true">
+  <span class="intro-kicker">KICK-OFF IN</span>
+  <span class="intro-num" data-intro-num>&nbsp;</span>
+  <span class="intro-dots"><i data-intro-dot></i><i data-intro-dot></i><i data-intro-dot></i><i data-intro-dot></i></span>
+  <span class="intro-skip">TAP TO SKIP</span>
+</div>
+
+<div class="field" aria-hidden="true"></div>
+
+<header class="hdr">
+  <div class="hdr-pane">
+    <a class="brand" href="./" data-cur="HOME" aria-label="Outdoor, home">
+      <svg class="glyph" viewBox="78 36 302 430" aria-hidden="true"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+      <span class="wordmark"><span class="o">O</span>utdoor</span>
     </a>
-    <div class="nav-right">     
-      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
-        <span class="toggle-icon sun" aria-hidden="true">☀</span>
-        <span class="toggle-icon moon" aria-hidden="true">◑</span>
+    <nav class="hdr-nav" aria-label="Main" data-cap="0" style="--cap:0">
+      <span class="hdr-cap" aria-hidden="true"></span>
+      <a href="./" class="is-current" aria-current="page">Home</a>
+      <a href="story.html">Story</a>
+    </nav>
+    <div class="hdr-end">
+      <span class="hdr-clock" title="Match minute: how far down the page you are"><span class="live-dot" aria-hidden="true"></span><span class="lbl">MIN</span><span class="min" data-clock>00'</span></span>
+      <button class="theme-btn" type="button" data-theme-toggle data-cur="LIGHT" aria-label="Switch to light theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <a href="waitlist.html" class="btn btn-primary">Waitlist</a>
-      <a href="about.html" class="nav-icon-btn" aria-label="About">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <circle cx="12" cy="8" r="4"/>
-          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-        </svg>
-      </a>     
+      <span data-mag><a class="btn btn-primary btn-nav" href="waitlist.html" data-cta="join" data-cur="JOIN"><span class="cta-full">Join the waitlist</span><span class="cta-short">Join</span></a></span>
     </div>
-  </nav>
+  </div>
 </header>
 
-<main>
+<main id="main">
 
-  <!-- ═══════════ SECTION 1 · HERO ═══════════ -->
-  <section class="hero" id="hero" aria-label="Hero">
-    <!-- Full-section ambient dot matrix — different character from the foreground canvas -->
-    <canvas id="hero-bg-canvas" aria-hidden="true"></canvas>
-    <div class="hero-content">
-
-      <div class="hero-text">
-        
-        <h1 class="hero-headline">
-          <span class="headline-outdoor">Outdoor</span>
-          <span class="headline-tagline">the complete sports ecosystem India forgot to build, until now</span>
-        </h1>
-        <p class="hero-sub">
-          Follow | Book | Play 
-        </p>
-        <div class="hero-cta-group">
-          <a href="waitlist.html" class="btn btn-primary btn-lg">Get early access</a>
-          <span class="hero-live-count">
-            <span class="hero-live-dot" aria-hidden="true"></span>
-            <span id="hero-count">—</span>&nbsp;people waiting
-          </span>
+  <!-- ═══ HERO: the stadium board ═══ -->
+  <section class="hero" data-field-zone aria-labelledby="hero-title">
+    <div class="wrap hero-top">
+      <span class="chip-pill" data-rv="0"><span class="live-dot" aria-hidden="true"></span>Early access · India</span>
+    </div>
+    <div class="board" data-rv="1" data-rvy="0">
+      <canvas class="board-led" data-led data-cur="PLAY" aria-hidden="true"></canvas>
+      <span class="board-tag tl" aria-hidden="true">BOARD 01</span>
+      <span class="board-tag br" aria-hidden="true">NOW SHOWING</span>
+    </div>
+    <div class="wrap hero-bottom">
+      <h1 class="hero-title" id="hero-title">
+        <span data-rv="2" data-rvy="60">Follow</span> <span data-rv="2" data-rvy="60">it.</span>
+        <span data-rv="3" data-rvy="60">Book</span> <span data-rv="3" data-rvy="60">it.</span>
+        <span data-rv="4" data-rvy="60">Play</span> <span data-rv="4" data-rvy="60">it.</span>
+        <span class="muted" data-rv="5" data-rvy="60">Together.</span>
+      </h1>
+      <div class="hero-side">
+        <p class="lead" data-rv="5">One app for the fans, players and friends who make sport happen, from the final over to Sunday's five-a-side.</p>
+        <div class="hero-actions" data-rv="6">
+          <span class="glow" data-mag><a class="btn btn-primary btn-big" href="waitlist.html" data-cta="join" data-cur="JOIN">Join the waitlist</a></span>
+          <a class="arrow-link" href="story.html" data-cur="READ">Our story<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
+        <p class="hero-count is-loading" data-rv="7" data-count-wrap><b data-count>0</b>people already on the waitlist</p>
       </div>
-
-      <div class="hero-canvas-wrap">
-        <canvas id="matrix-canvas" aria-hidden="true"></canvas>
-        <p class="canvas-label" id="canvas-label" aria-hidden="true">Following</p>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════ SECTION 2 · VALUE PROP ═══════════ -->
-  <section class="value-prop" id="value-prop" aria-label="Value proposition">
-    <div class="value-inner">
-
-      <div class="value-text reveal">
-        <h2 class="value-headline">
-          Forget following sports<br>as a dedicated task.
-        </h2>
-        <p class="value-sub">Let us handle it all.</p>
-        <p class="value-body">One app. Every sport. Every need.</p>
-      </div>
-
-      <!-- <div class="value-visual reveal reveal-delay-2">
-        <img class="plays-video"
-             src="plays/runningAnimation.gif"
-             alt=""
-             aria-hidden="true">
-      </div> -->
-
+  <!-- ═══ TICKER (illustrative scores) ═══ -->
+  <section class="ticker" aria-hidden="true">
+    <div class="ticker-row" data-ticker>
+      <span class="tick" style="--c:var(--sport-cricket)"><i></i><span class="tick-lg">IPL</span><span class="tick-a">MI</span><b class="tick-s">186/4</b><span class="tick-b">CSK</span><span class="tick-st live">LIVE</span></span>
+      <span class="tick" style="--c:var(--sport-football)"><i></i><span class="tick-lg">ISL</span><span class="tick-a">Mumbai City</span><b class="tick-s">2 – 1</b><span class="tick-b">FC Goa</span><span class="tick-st">78'</span></span>
+      <span class="tick" style="--c:var(--sport-kabaddi)"><i></i><span class="tick-lg">PKL</span><span class="tick-a">Puneri Paltan</span><b class="tick-s">34 – 29</b><span class="tick-b">Bengal Warriors</span><span class="tick-st live">LIVE</span></span>
+      <span class="tick" style="--c:var(--sport-tennis)"><i></i><span class="tick-lg">ATP</span><span class="tick-a">Sinner</span><b class="tick-s">6–4 3–2</b><span class="tick-b">Alcaraz</span><span class="tick-st live">LIVE</span></span>
+      <span class="tick" style="--c:var(--sport-hockey)"><i></i><span class="tick-lg">FIH Pro League</span><span class="tick-a">India</span><b class="tick-s">3 – 2</b><span class="tick-b">Belgium</span><span class="tick-st">FT</span></span>
+    </div>
+    <div class="ticker-row rev" data-ticker>
+      <span class="tick" style="--c:var(--sport-chess)"><i></i><span class="tick-lg">Candidates</span><span class="tick-a">Gukesh</span><b class="tick-s">½ – ½</b><span class="tick-b">Caruana</span><span class="tick-st">R7</span></span>
+      <span class="tick" style="--c:var(--sport-f1)"><i></i><span class="tick-lg">F1</span><span class="tick-a">Norris</span><b class="tick-s">P1</b><span class="tick-b">Lap 42/57</span><span class="tick-st live">LIVE</span></span>
+      <span class="tick" style="--c:var(--sport-cricket)"><i></i><span class="tick-lg">Ranji Trophy</span><span class="tick-a">Mumbai</span><b class="tick-s">312/6</b><span class="tick-b">Karnataka</span><span class="tick-st">DAY 2</span></span>
+      <span class="tick" style="--c:var(--sport-tennis)"><i></i><span class="tick-lg">WTA</span><span class="tick-a">Swiatek</span><b class="tick-s">7–5</b><span class="tick-b">Gauff</span><span class="tick-st live">LIVE</span></span>
+      <span class="tick" style="--c:var(--sport-badminton)"><i></i><span class="tick-lg">PBL</span><span class="tick-a">Hyderabad</span><b class="tick-s">3 – 1</b><span class="tick-b">Chennai</span><span class="tick-st">FT</span></span>
     </div>
   </section>
 
-  <!-- ═══════════ SECTION 3 · FEATURES ═══════════ -->
-  <section class="panel-track" id="features" aria-label="App features">
-
-    <!-- Panel 1: Following (Blue) -->
-    <div class="feature-panel" data-panel="0" style="--panel-color:#1EAEFF; --panel-gradient:linear-gradient(150deg,#020D18 0%,#082540 55%,#1060A0 100%);">
-      <div class="panel-inner">
-        <div class="panel-top">
-          <span class="panel-step-label">01 — Following</span>
-          <h3 class="panel-headline">Every sport.<br>One feed.</h3>
-          <div class="panel-bullets">
-            <div class="panel-bullet">
-              <span class="bullet-title">Live scores</span>
-              <span class="bullet-body">Real-time updates for every match you care about — cricket, football, kabaddi, and more.</span>
-            </div>
-            <div class="panel-bullet">
-              <span class="bullet-title">Schedules &amp; news</span>
-              <span class="bullet-body">Your personalised calendar and curated feed, synced across every sport you follow.</span>
-            </div>
-          </div>
-        </div>
-        <div class="panel-bottom">
-          <p class="panel-body">Stop switching between seven apps. Outdoor pulls every sport you care about into one clean, intelligent feed — live scores, news, and schedules in real time.</p>
-
-        </div>
-      </div>
-      <span class="panel-bignum" aria-hidden="true">01</span>
-      <span class="panel-code"   aria-hidden="true">(FW)</span>
+  <!-- ═══ MANIFESTO ═══ -->
+  <section class="manifesto" data-slides aria-labelledby="mf-title">
+    <h2 class="sr-only" id="mf-title">Sport was never meant to be watched alone.</h2>
+    <div class="mf-lines" aria-hidden="true">
+      <div class="mf-line" data-slide="-1">Sport was never</div>
+      <div class="mf-line mf-r" data-slide="1">meant to be</div>
+      <div class="mf-line mf-in" data-slide="-1">watched <em>alone.</em></div>
     </div>
-
-    <!-- Panel 2: Booking (Orange) -->
-    <div class="feature-panel" data-panel="1" style="--panel-color:#FF4E00; --panel-gradient:linear-gradient(150deg,#110300 0%,#3D1200 55%,#B03800 100%);">
-      <div class="panel-inner">
-        <div class="panel-top">
-          <span class="panel-step-label">02 — Booking</span>
-          <h3 class="panel-headline">Find a court.<br>Book it now.</h3>
-          <div class="panel-bullets">
-            <div class="panel-bullet">
-              <span class="bullet-title">Venue discovery</span>
-              <span class="bullet-body">Search grounds, courts, and arenas near you — filtered by sport, availability, and price.</span>
-            </div>
-            <div class="panel-bullet">
-              <span class="bullet-title">Instant booking</span>
-              <span class="bullet-body">Reserve your slot in seconds. No calls, no back-and-forth, no hassle.</span>
-            </div>
-          </div>
-        </div>
-        <div class="panel-bottom">
-          <p class="panel-body">India has thousands of courts and grounds sitting half-empty because discovery is broken. Outdoor fixes that — from local parks to premium academies, all bookable in one tap.</p>
-
-        </div>
-      </div>
-      <span class="panel-bignum" aria-hidden="true">02</span>
-      <span class="panel-code"   aria-hidden="true">(BK)</span>
+    <div class="wrap mf-foot">
+      <p data-rv="0">Outdoor puts the scores, the courts and your people in one place, so the next thing after watching is playing.</p>
     </div>
-
-    <!-- Panel 3: Co-playing (Green) -->
-    <div class="feature-panel" data-panel="2" style="--panel-color:#00C27A; --panel-gradient:linear-gradient(150deg,#010F07 0%,#023520 55%,#007A4C 100%);">
-      <div class="panel-inner">
-        <div class="panel-top">
-          <span class="panel-step-label">03 — Co-playing</span>
-          <h3 class="panel-headline">Find your<br>team today.</h3>
-          <div class="panel-bullets">
-            <div class="panel-bullet">
-              <span class="bullet-title">Player matching</span>
-              <span class="bullet-body">Connect with players at your skill level and in your area. No more benched Sundays.</span>
-            </div>
-            <div class="panel-bullet">
-              <span class="bullet-title">Fill your side</span>
-              <span class="bullet-body">Short on players? Post your game and find the right people in minutes.</span>
-            </div>
-          </div>
-        </div>
-        <div class="panel-bottom">
-          <p class="panel-body">Playing sport shouldn't depend on who you happen to know. Outdoor builds a live network of players across every sport — so you always have a game to join or a side to fill.</p>
-
-        </div>
-      </div>
-      <span class="panel-bignum" aria-hidden="true">03</span>
-      <span class="panel-code"   aria-hidden="true">(CP)</span>
-    </div>
-
-    <!-- Panel 4: Media (Gold) -->
-    <div class="feature-panel" data-panel="3" style="--panel-color:#FFB300; --panel-gradient:linear-gradient(150deg,#120B00 0%,#3D2200 55%,#A06000 100%);">
-      <div class="panel-inner">
-        <div class="panel-top">
-          <span class="panel-step-label">04 — Media</span>
-          <h3 class="panel-headline">Real stories.<br>No clickbait.</h3>
-          <div class="panel-bullets">
-            <div class="panel-bullet">
-              <span class="bullet-title">Grassroots coverage</span>
-              <span class="bullet-body">Stories from district leagues, college circuits, and local heroes that mainstream media ignores.</span>
-            </div>
-            <div class="panel-bullet">
-              <span class="bullet-title">Premium content</span>
-              <span class="bullet-body">High-quality video, long-form features, and data journalism — made for genuine fans.</span>
-            </div>
-          </div>
-        </div>
-        <div class="panel-bottom">
-          <p class="panel-body">Indian sport has millions of untold stories. Outdoor Media brings you the athletes, coaches, and communities that never make the news — in the quality they deserve.</p>
-          <a href="waitlist.html" class="btn-panel">Join the waitlist →</a>
-        </div>
-      </div>
-      <span class="panel-bignum" aria-hidden="true">04</span>
-      <span class="panel-code"   aria-hidden="true">(MD)</span>
-    </div>
-
   </section>
 
-  <!-- ═══════════ SECTION 4 · PHASES ═══════════ -->
-  <section class="phases-section" id="phases" aria-label="Company phases">
-    <div class="phases-inner">
-
-      <div class="phases-header reveal">
-        <span class="label">The long game</span>
-        <h2>Building the future<br>of Indian sport</h2>
+  <!-- ═══ FOUR QUARTERS: the app, on a horizontal rail ═══ -->
+  <section class="quarters" data-htrack aria-labelledby="q-title">
+    <div class="q-stage">
+      <div class="wrap q-head">
+        <div class="q-head-text">
+          <p class="kicker">The app · four quarters</p>
+          <h2 class="h2" id="q-title">Everything around the game.</h2>
+        </div>
+        <p class="q-lap" aria-hidden="true">QUARTER<span data-lap>1</span>/ 4</p>
       </div>
 
-      <div class="phases-track-container" id="phases-track-container">
-
-        <!-- Animated connector line (draws left-to-right on scroll) -->
-        <div class="phases-connector-line" aria-hidden="true">
-          <div class="phases-connector-fill" id="phases-connector-fill"></div>
-        </div>
-
-        <div class="phases-nodes">
-
-          <!-- Phase 1 — Community (active, green) -->
-          <div class="phase-node" data-phase="1">
-            <div class="phase-dot-wrap">
-              <div class="phase-dot phase-dot--green">
-                <div class="phase-pulse-ring" aria-hidden="true"></div>
-              </div>
-            </div>
-            <div class="phase-card">
-              <span class="phase-badge phase-badge--green">● Now building</span>
-              <span class="phase-tag">Phase 1</span>
-              <h3 class="phase-name">Community</h3>
-              <p class="phase-desc">Connect every sports fan, player, and venue across India into one living network. The foundation everything else is built on.</p>
+      <div class="q-rail" data-hrail>
+        <article class="q-panel" style="--qc:var(--trophy-gold)" aria-labelledby="q1-t">
+          <div class="q-copy">
+            <span class="q-num" aria-hidden="true">Q1</span>
+            <div class="q-text">
+              <p class="q-tag">FOLLOW</p>
+              <h3 id="q1-t">Your teams. Your leagues. Your players.</h3>
+              <p>Pick anything from the IPL to Wimbledon. Scores and fixtures land in one feed.</p>
             </div>
           </div>
+          <div class="q-demo q1" aria-hidden="true" data-q1>
+            <div class="fchip" style="--c:var(--sport-cricket)"><span class="fchip-id"><i></i><span class="fchip-n">Mumbai Indians</span><span class="fchip-t">Cricket</span></span><span class="fchip-btn">Follow</span></div>
+            <div class="fchip" style="--c:var(--sport-football)"><span class="fchip-id"><i></i><span class="fchip-n">Kerala Blasters</span><span class="fchip-t">Football</span></span><span class="fchip-btn">Follow</span></div>
+            <div class="fchip" style="--c:var(--sport-tennis)"><span class="fchip-id"><i></i><span class="fchip-n">Wimbledon</span><span class="fchip-t">Tennis</span></span><span class="fchip-btn">Follow</span></div>
+            <div class="fchip" style="--c:var(--sport-kabaddi)"><span class="fchip-id"><i></i><span class="fchip-n">Pro Kabaddi</span><span class="fchip-t">Kabaddi</span></span><span class="fchip-btn">Follow</span></div>
+            <div class="fchip" style="--c:var(--sport-f1)"><span class="fchip-id"><i></i><span class="fchip-n">Formula 1</span><span class="fchip-t">F1</span></span><span class="fchip-btn">Follow</span></div>
+          </div>
+        </article>
 
-          <!-- Phase 2 — Infrastructure (up next, blue) -->
-          <div class="phase-node" data-phase="2">
-            <div class="phase-dot-wrap">
-              <div class="phase-dot phase-dot--blue"></div>
-            </div>
-            <div class="phase-card">
-              <span class="phase-badge phase-badge--blue">◌ Up next</span>
-              <span class="phase-tag">Phase 2</span>
-              <h3 class="phase-name">Infrastructure</h3>
-              <p class="phase-desc">Build world class sports facilities and complete management systems for businesses that scale grassroots sports to global leagues.</p>
+        <article class="q-panel" style="--qc:var(--match-green)" aria-labelledby="q2-t">
+          <div class="q-copy">
+            <span class="q-num" aria-hidden="true">Q2</span>
+            <div class="q-text">
+              <p class="q-tag">BOOK</p>
+              <h3 id="q2-t">A court in three taps.</h3>
+              <p>Turfs and courts near you with open slots on screen. Pick a time, split it with the squad, done.</p>
             </div>
           </div>
-
-          <!-- Phase 3 — Deep-Tech (future, gold) -->
-          <div class="phase-node" data-phase="3">
-            <div class="phase-dot-wrap">
-              <div class="phase-dot phase-dot--gold"></div>
+          <div class="q-demo q2" aria-hidden="true" data-q2>
+            <div class="q2-head"><span class="q2-venue">Turf 3 · Andheri West</span><span class="q2-day">TODAY</span></div>
+            <div class="q2-slots">
+              <span class="slot is-taken">6 AM</span><span class="slot">7 AM</span><span class="slot is-taken">8 AM</span><span class="slot">9 AM</span>
+              <span class="slot">5 PM</span><span class="slot is-taken">6 PM</span><span class="slot">7 PM</span><span class="slot">8 PM</span>
             </div>
-            <div class="phase-card">
-              <span class="phase-badge phase-badge--gold">◈ The future</span>
-              <span class="phase-tag">Phase 3</span>
-              <h3 class="phase-name">Sports Deep-Tech</h3>
-              <p class="phase-desc">Bring hardware, AI and wearables to support every level of play. Making India a global sensation in every sport.</p>
+            <div class="q2-toast">
+              <span class="q2-tick"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+              <span class="q2-toast-text"><b>Booked for 7 PM</b><span>₹240 each, split five ways</span></span>
             </div>
           </div>
+        </article>
 
+        <article class="q-panel" style="--qc:var(--court-teal)" aria-labelledby="q3-t">
+          <div class="q-copy">
+            <span class="q-num" aria-hidden="true">Q3</span>
+            <div class="q-text">
+              <p class="q-tag">SQUAD</p>
+              <h3 id="q3-t">Get the group together.</h3>
+              <p>Plan the game, chat about the match, and see who's in without fifty messages.</p>
+            </div>
+          </div>
+          <div class="q-demo q3" aria-hidden="true" data-q3>
+            <div class="q3-chat">
+              <span class="bubble in">Who's in for Sunday, 7 AM?</span>
+              <span class="bubble out">In. Bringing the ball.</span>
+            </div>
+            <div class="q3-avs">
+              <span class="av" style="--c:#00BFA5" data-i="RK">+</span>
+              <span class="av" style="--c:#F7B300" data-i="AS">+</span>
+              <span class="av" style="--c:#1EAEFF" data-i="MJ">+</span>
+              <span class="av" style="--c:#E5197F" data-i="PD">+</span>
+              <span class="av" style="--c:#F2EDE8" data-i="YOU">+</span>
+            </div>
+            <p class="q3-count"><b data-q3-count>1/5</b><span data-q3-status>Need 4 more for Sunday</span></p>
+          </div>
+        </article>
+
+        <article class="q-panel" style="--qc:var(--live-blue)" aria-labelledby="q4-t">
+          <div class="q-copy">
+            <span class="q-num" aria-hidden="true">Q4</span>
+            <div class="q-text">
+              <p class="q-tag">CATCH UP</p>
+              <h3 id="q4-t">More than the scoreline.</h3>
+              <p>Daily news, highlights, stories and analysis from across sport, so you follow the game beyond the score. No clickbait.</p>
+            </div>
+          </div>
+          <div class="q-demo q4" aria-hidden="true" data-q4>
+            <div class="q4-head"><b>Today in sport</b><span>DAILY</span></div>
+            <div class="q4-stack">
+              <div class="news" style="--c:var(--sport-cricket)"><span class="news-s">Cricket · Highlights</span><span class="news-h">A late collapse, then a record chase under lights.</span></div>
+              <div class="news" style="--c:var(--sport-football)"><span class="news-s">Football · Story</span><span class="news-h">How a Sunday-league keeper ended up in the ISL.</span></div>
+              <div class="news" style="--c:var(--sport-chess)"><span class="news-s">Chess · Analysis</span><span class="news-h">Seven hours, one pawn, and the move that saved the draw.</span></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="wrap q-track" aria-hidden="true">
+        <div class="q-track-in">
+          <span class="q-track-lbl start">START</span>
+          <span class="q-track-lbl end">FULL TIME</span>
+          <span class="q-runner" data-runner></span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ═══════════ SECTION 5 · WAITLIST EMBED ═══════════ -->
-  <section class="waitlist-embed" id="waitlist-section" aria-label="Join waitlist">
-    <div class="waitlist-embed-inner reveal">
-      <span class="label">Early access</span>
-      <h2>Be among the first<br>to experience Outdoor</h2>
-      <p class="waitlist-count-line">
-        <span class="count-num" id="main-count">—</span>
-        <span class="count-label">&nbsp;people already waiting</span>
-      </p>
-      <form class="waitlist-form" id="main-waitlist-form" novalidate>
-        <div class="form-group">
-          <input type="text" name="name" id="main-name"
-                 placeholder="Your name" autocomplete="name" required>
+  <!-- ═══ SQUAD: the city sorts itself into games ═══ -->
+  <section class="squad" data-squad aria-labelledby="squad-title">
+    <div class="squad-stage">
+      <div class="wrap squad-head">
+        <div class="squad-head-text">
+          <p class="kicker">Find your people</p>
+          <h2 class="h2" id="squad-title">Somewhere near you, a game is one player short.</h2>
         </div>
-        <div class="form-group">
-          <input type="email" name="email" id="main-email"
-                 placeholder="Your email" autocomplete="email" required>
-        </div>
-        <button type="submit" class="btn btn-primary btn-submit" id="main-submit">
-          <span class="btn-text">Get early access</span>
-          <span class="btn-arrow" aria-hidden="true">→</span>
-        </button>
-        <p class="form-msg" id="main-form-msg" aria-live="polite" role="status"></p>
-      </form>
+      </div>
+      <canvas class="squad-canvas" data-squad-canvas aria-hidden="true"></canvas>
     </div>
   </section>
 
+  <!-- ═══ LIGHTS OUT: a reaction game ═══ -->
+  <section class="lights" aria-labelledby="lights-title">
+    <div class="wrap two">
+      <div class="lights-copy" data-rv="0">
+        <p class="kicker">Warm-up</p>
+        <h2 class="h2" id="lights-title">Lights out.<br>Go.</h2>
+        <p class="body-lg">Five red lights. When they go out, tap. Your best time stays on this device.</p>
+        <p class="lights-best">PERSONAL BEST <b data-best>—</b></p>
+      </div>
+      <div class="lights-game" data-rv="1" data-game role="button" tabindex="0" data-cur="TAP" aria-label="Reaction game. Press to start, then press again when the lights go out." aria-describedby="rx-msg">
+        <div class="gantry" aria-hidden="true">
+          <span class="lamps"><span class="lamp"></span><span class="lamp" data-lamp></span><span class="lamp" data-lamp></span></span>
+          <span class="lamps"><span class="lamp"></span><span class="lamp" data-lamp></span><span class="lamp" data-lamp></span></span>
+          <span class="lamps"><span class="lamp"></span><span class="lamp" data-lamp></span><span class="lamp" data-lamp></span></span>
+          <span class="lamps"><span class="lamp"></span><span class="lamp" data-lamp></span><span class="lamp" data-lamp></span></span>
+          <span class="lamps"><span class="lamp"></span><span class="lamp" data-lamp></span><span class="lamp" data-lamp></span></span>
+        </div>
+        <div class="readout">
+          <b data-rx-big>0.000</b>
+          <span id="rx-msg" data-rx-msg aria-live="polite">Tap to start</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CITIES ═══ -->
+  <section class="cities" aria-labelledby="cities-title">
+    <div class="wrap two">
+      <div class="cities-copy" data-rv="0">
+        <p class="kicker">Launching city by city</p>
+        <h2 class="h2" id="cities-title">First whistle in Pune.</h2>
+        <p class="body-lg">Pune goes first. The rest of India follows.</p>
+      </div>
+      <div class="map" data-rv="1" data-map role="img" aria-label="Map of India with Pune, the first launch city, highlighted">
+        <canvas class="map-dots" aria-hidden="true"></canvas>
+        <div class="map-cities" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ BE FIRST IN ═══ -->
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="wrap two">
+      <div class="ring" data-rv="0" aria-hidden="true">
+        <svg class="ring-text" viewBox="0 0 200 200"><defs><path id="ring-path" d="M100,100 m-84,0 a84,84 0 1,1 168,0 a84,84 0 1,1 -168,0"/></defs><text><textPath href="#ring-path" data-launch-text="GET THE APP • OUT NOW • LET'S GET OUT HUMANS •">JOIN THE WAITLIST • EARLY ACCESS • LET'S GET OUT •</textPath></text></svg>
+        <span class="ring-core"><svg class="glyph" viewBox="78 36 302 430"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg></span>
+      </div>
+      <div class="cta-copy" data-rv="1">
+        <p class="kicker" data-launch-text="Out now">Early access</p>
+        <h2 class="h2" id="cta-title" data-launch-text="Get the app.">Be first in.</h2>
+        <p class="body-lg" data-launch-text="Follow it. Book it. Play it. Together.">Join the waitlist and we'll tell you the moment Outdoor is ready.</p>
+        <span class="glow" data-mag><a class="btn btn-primary btn-big" href="waitlist.html" data-cta="join" data-cur="JOIN">Join the waitlist</a></span>
+      </div>
+    </div>
+  </section>
+
+  <a class="next" href="story.html" data-cur="READ">
+    <span class="wrap next-in">
+      <span class="next-text"><span class="kicker">Next up</span><span class="next-title">Our story</span></span>
+      <span class="next-arrow"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+    </span>
+  </a>
 </main>
 
-<!-- ═══════════ FOOTER ═══════════ -->
-<footer class="site-footer" id="site-footer" aria-label="Site footer">
-  <div class="footer-inner">
-
-    <div class="footer-brand">
-      <a href="index.html" class="logo-link" aria-label="Outdoor home">
-        <img src="assets/images/logos/logo-dark.png"
-             alt=""
-             class="footer-logo"
-             id="footer-logo">
-        <span class="logo-wordmark"><span class="logo-o">O</span>utdoor</span>
+<footer class="ftr">
+  <div class="wrap ftr-in">
+    <p class="ftr-script" data-script>Let's get out humans</p>
+    <div class="ftr-row">
+      <a class="brand" href="./" aria-label="Outdoor, home">
+        <svg class="glyph" viewBox="78 36 302 430" aria-hidden="true"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+        <span class="wordmark"><span class="o">O</span>utdoor</span>
       </a>
-    </div>
-
-    <div class="footer-links">
-      <nav class="footer-nav" aria-label="Footer navigation">
-        <a href="about.html">About</a>
-        <a href="waitlist.html">Join Waitlist</a>
+      <nav class="ftr-nav" aria-label="Footer">
+        <a href="./">Home</a>
+        <a href="story.html">Our story</a>
+        <a href="waitlist.html" data-cta="join" data-cta-store="Get the app">Waitlist</a>
       </nav>
-      <div class="footer-social">
-        <a href="#" class="social-link" aria-label="LinkedIn" rel="noopener noreferrer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
-            <rect x="2" y="9" width="4" height="12"/>
-            <circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link" aria-label="Instagram" rel="noopener noreferrer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-            <circle cx="12" cy="12" r="4"/>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-          </svg>
-        </a>
-        <a href="#" class="social-link" aria-label="YouTube" rel="noopener noreferrer">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/>
-            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/>
-          </svg>
-        </a>
-      </div>
+      <span class="ftr-copy">© <span data-year>2026</span> OUTDOOR · MADE IN INDIA</span>
     </div>
-
-  </div>
-  <div class="footer-bottom">
-    <p>© 2026 Outdoor. All rights reserved.</p>
+    <div class="ftr-legal">
+      <nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="delete-account.html">Delete your account</a></nav>
+      <span class="contact"><a data-email href="mailto:team.outdoor.in@gmail.com">team.outdoor.in@gmail.com</a><a data-social="linkedin" href="https://www.linkedin.com/company/theoutdoor/" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+    </div>
   </div>
 </footer>
-
-<script src="js/theme.js"></script>
-<script src="js/matrix.js"></script>
-<script src="js/sticky-scroll.js"></script>
-<script src="js/waitlist.js"></script>
 
 </body>
 </html>

@@ -1,127 +1,42 @@
 /* ==========================================================
-   OUTDOOR — Waitlist Form Handler
-   Google Apps Script integration for all forms on any page.
+   OUTDOOR — Waitlist backend client
+   Talks to the Google Apps Script in APPS_SCRIPT.js.
 
-   HOW TO SET UP:
-   1. Open your Google Sheet → Extensions → Apps Script
-   2. Paste the contents of APPS_SCRIPT.js
-   3. Deploy as Web App (Execute as: Me, Access: Anyone)
-   4. Copy the deployment URL and paste it below as SCRIPT_URL
+   The POST is a CORS "simple request" (URL-encoded body, no custom headers),
+   so the script's JSON reply is readable: the position comes back in the same
+   response that wrote the row, and repeat sign-ups are recognised.
+   Works with the live script (v1: {success, count, duplicate}) and would
+   work with a newer one that returns {ok, position, duplicate}.
    ========================================================== */
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzhJye9SV5OThRyqiYKhGPPcFb_V1doSXBs83ONe2yj2MIEzHbee5bIiUDg8i1YrzMG/exec';
+import { CONFIG } from './config.js';
 
-/* ── Helper: fetch current count (GET) ─────────────────── */
-async function fetchCount() {
-  // Guard only fires when the URL is still the default placeholder
-  if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return null;
+export const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+/** How many people are waiting, or null if the script can't be reached. */
+export async function fetchCount() {
   try {
-    const res  = await fetch(SCRIPT_URL, { method: 'GET', mode: 'cors' });
+    const res = await fetch(CONFIG.scriptUrl, { method: 'GET' });
     const data = await res.json();
     return typeof data.count === 'number' ? data.count : null;
-  } catch {
+  } catch (e) {
     return null;
   }
 }
 
-/* ── Helper: update count displays on the current page ─── */
-async function refreshCount() {
-  const count = await fetchCount();
-  if (count === null) return;
-  document.querySelectorAll('[id$="-count"], .count-num').forEach(el => {
-    el.textContent = count.toLocaleString('en-IN');
+/**
+ * Add someone to the list. Resolves { position, duplicate }; throws if the
+ * script refuses or can't be reached.
+ */
+export async function joinWaitlist({ name, email, company = '' }) {
+  const res = await fetch(CONFIG.scriptUrl, {
+    method: 'POST',
+    body: new URLSearchParams({ name, email, company }),
   });
+  const data = await res.json();
+  if (!(data.ok || data.success)) throw new Error(data.error || 'rejected');
+  // A newer script returns the row's own position, repeats included. v1 returns
+  // only the total, which is the position of a NEW row and wrong for a repeat.
+  const position = Number(data.position ?? (data.duplicate ? null : data.count));
+  return { position: position > 0 ? position : null, duplicate: !!data.duplicate };
 }
-
-/* ── Helper: submit form then redirect to thank-you page ── */
-async function submitForm(name, email, msgEl, btn) {
-  // Guard only fires when the URL is still the default placeholder
-  if (!SCRIPT_URL || SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
-    showMsg(msgEl, '⚠ Script URL not configured yet.', 'error');
-    return;
-  }
-
-  const body = new URLSearchParams({ name: name.trim(), email: email.trim() }).toString();
-
-  // mode: 'no-cors' bypasses CORS preflight — response will be opaque (that's fine)
-  try {
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body,
-    });
-
-    // Briefly update button state while we fetch the position
-    if (btn) {
-      btn.querySelector('.btn-text').textContent = 'You\'re in ✓';
-      btn.style.background = 'var(--green)';
-    }
-
-    // Fetch count → this is the user's waitlist position
-    const count = await fetchCount();
-
-    // Redirect to the thank-you page with name + position as URL params
-    const redirectParams = new URLSearchParams({ name: name.trim() });
-    if (count !== null) redirectParams.set('position', count);
-    window.location.href = 'thank-you.html?' + redirectParams.toString();
-
-  } catch (err) {
-    showMsg(msgEl, '❌ Something went wrong. Please try again.', 'error');
-    if (btn) {
-      btn.disabled = false;
-      btn.querySelector('.btn-text').textContent = 'Get early access';
-    }
-  }
-}
-
-function showMsg(el, text, type) {
-  if (!el) return;
-  el.textContent = text;
-  el.className = 'form-msg ' + type;
-}
-
-/* ── Attach to any .waitlist-form on the page ─────────── */
-document.addEventListener('DOMContentLoaded', function () {
-
-  // Load live count on page load
-  refreshCount();
-
-  document.querySelectorAll('.waitlist-form').forEach(form => {
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
-
-      const nameEl  = form.querySelector('input[name="name"]');
-      const emailEl = form.querySelector('input[name="email"]');
-      const msgEl   = form.querySelector('.form-msg');
-      const btn     = form.querySelector('button[type="submit"]');
-
-      const name  = nameEl  ? nameEl.value.trim()  : '';
-      const email = emailEl ? emailEl.value.trim() : '';
-
-      // Basic validation
-      if (!name) {
-        nameEl.focus();
-        showMsg(msgEl, 'Please enter your name.', 'error');
-        return;
-      }
-      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        emailEl.focus();
-        showMsg(msgEl, 'Please enter a valid email address.', 'error');
-        return;
-      }
-
-      // Loading state
-      if (btn) {
-        btn.disabled = true;
-        const textEl = btn.querySelector('.btn-text');
-        if (textEl) textEl.textContent = 'Submitting…';
-      }
-      showMsg(msgEl, '', '');
-
-      await submitForm(name, email, msgEl, btn);
-      // Note: on success we redirect to thank-you.html, so no need to clear inputs here
-    });
-  });
-
-});

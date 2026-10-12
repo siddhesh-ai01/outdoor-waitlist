@@ -1,273 +1,181 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en-IN" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Join the Waitlist — Outdoor</title>
-  <meta name="description" content="Be among the first to experience Outdoor — India's complete sports ecosystem. Get early access now.">
-  <link rel="icon" type="image/png" href="assets/images/logos/logo-light.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Join the waitlist · Outdoor</title>
+  <meta name="description" content="Get early access to Outdoor, one app for the fans, players and friends who make sport happen.">
+  <link rel="canonical" href="https://www.theoutdoor.in/waitlist.html">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Outdoor">
+  <meta property="og:title" content="Join the Outdoor waitlist">
+  <meta property="og:description" content="Early access to one app for everything around the game.">
+  <meta property="og:url" content="https://www.theoutdoor.in/waitlist.html">
+  <meta property="og:image" content="https://www.theoutdoor.in/assets/images/og/outdoor-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/images/icons/favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="assets/images/icons/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="preload" href="assets/fonts/Satoshi-Bold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/BebasNeue-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <script>
+    (function () {
+      var d = document.documentElement, t = 'dark', rm = false;
+      try { var s = localStorage.getItem('outdoor-theme'); if (s === 'light' || s === 'dark') t = s; } catch (e) {}
+      d.setAttribute('data-theme', t);
+      d.className += ' js';
+      try { rm = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      try { if (!rm && sessionStorage.getItem('outdoor-nav') === '1') d.className += ' nav-in'; } catch (e) {}
+    })();
+  </script>
   <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/global.css">
-  <style>
-    /* ── Waitlist page specific styles ── */
-    .wl-page {
-      min-height: 100svh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
-
-    /* Left: decorative panel */
-    .wl-panel {
-      background: var(--layer);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(32px, 6vw, 72px);
-      position: relative;
-      overflow: hidden;
-    }
-    .wl-panel::before {
-      content: '';
-      position: absolute;
-      bottom: -20%;
-      left: -10%;
-      width: 70%;
-      height: 70%;
-      background: radial-gradient(circle, var(--orange-glow) 0%, transparent 65%);
-      pointer-events: none;
-      border-radius: 50%;
-    }
-    .wl-panel-logo {
-      height: 30px;
-      width: auto;
-    }
-    .wl-panel-headline {
-      position: relative; z-index: 1;
-    }
-    .wl-panel-headline h1 {
-      font-size: clamp(40px, 5vw, 64px);
-      font-weight: 900;
-      letter-spacing: -0.04em;
-      line-height: 1.02;
-      margin-bottom: var(--s5);
-    }
-    .wl-panel-headline p {
-      font-size: clamp(15px, 1.4vw, 18px);
-      color: var(--text-body);
-      line-height: 1.65;
-      max-width: 380px;
-    }
-    .wl-stat {
-      position: relative; z-index: 1;
-      display: flex;
-      flex-direction: column;
-      gap: var(--s2);
-    }
-    .wl-stat-num {
-      font-size: clamp(36px, 4vw, 56px);
-      font-weight: 900;
-      color: var(--green);
-      letter-spacing: -0.04em;
-    }
-    .wl-stat-label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--green);
-    }
-
-    /* Right: form panel */
-    .wl-form-panel {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: clamp(32px, 6vw, 72px);
-      background: var(--bg);
-    }
-    .wl-form-header {
-      margin-bottom: var(--s8);
-    }
-    .wl-form-header h2 {
-      font-size: clamp(28px, 3.5vw, 44px);
-      margin-bottom: var(--s3);
-    }
-    .wl-form-header p {
-      font-size: 15px;
-      color: var(--text-hint);
-    }
-    .wl-form {
-      display: flex;
-      flex-direction: column;
-      gap: var(--s4);
-      max-width: 420px;
-    }
-    .wl-input-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--s2);
-    }
-    .wl-input-group label {
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-hint);
-    }
-    .wl-input-group input {
-      width: 100%;
-      padding: 14px 18px;
-      background: var(--layer);
-      border: 1px solid var(--border);
-      border-radius: var(--r-md);
-      color: var(--text-primary);
-      font-family: var(--font);
-      font-size: 15px;
-      outline: none;
-      transition: border-color var(--t-fast), background var(--t-fast);
-    }
-    .wl-input-group input::placeholder { color: var(--text-hint); }
-    .wl-input-group input:focus {
-      border-color: var(--orange);
-      background: var(--surface);
-    }
-    .wl-submit {
-      margin-top: var(--s2);
-      padding: 16px 28px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--s2);
-      background: var(--orange);
-      color: #fff;
-      font-family: var(--font);
-      font-weight: 700;
-      font-size: 15px;
-      border: none;
-      border-radius: var(--r-md);
-      cursor: pointer;
-      transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
-    }
-    .wl-submit:hover {
-      background: #e84500;
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px var(--orange-glow);
-    }
-    .wl-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-    .wl-arrow { transition: transform var(--t-fast); }
-    .wl-submit:hover:not(:disabled) .wl-arrow { transform: translateX(4px); }
-    .wl-msg {
-      font-size: 13px;
-      min-height: 20px;
-      margin-top: var(--s1);
-    }
-    .wl-msg.success { color: var(--green); }
-    .wl-msg.error   { color: var(--red); }
-    .wl-back {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--s2);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-hint);
-      margin-top: var(--s6);
-      transition: color var(--t-fast);
-    }
-    .wl-back:hover { color: var(--text-primary); }
-    .wl-privacy {
-      font-size: 12px;
-      color: var(--text-hint);
-      margin-top: var(--s3);
-    }
-
-    /* Mobile: stack vertically */
-    @media (max-width: 768px) {
-      .wl-page { grid-template-columns: 1fr; }
-      .wl-panel {
-        min-height: 40svh;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding: clamp(24px, 5vw, 48px);
-      }
-      .wl-form-panel { padding: clamp(24px, 5vw, 48px); }
-      .wl-form { max-width: 100%; }
-    }
-  </style>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="modulepreload" href="js/site.js">
+  <link rel="modulepreload" href="js/motion.js">
+  <link rel="modulepreload" href="js/field.js">
+  <link rel="modulepreload" href="js/fx.js">
+  <script type="module" src="js/join.js"></script>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<div class="grain" aria-hidden="true"></div>
-
-<main class="wl-page">
-
-  <!-- Left: brand panel -->
-  <div class="wl-panel">
-    <a href="index.html" class="logo-link" aria-label="Back to Outdoor home">
-      <img src="assets/images/logos/logo-dark.png"
-           alt=""
-           class="wl-panel-logo"
-           id="header-logo">
-      <span class="logo-wordmark"><span class="logo-o">O</span>utdoor</span>
-    </a>
-
-    <div class="wl-panel-headline">
-      <span class="label"></span>
-      <h1>Sport,<br>the way it<br>should be.</h1>
-      <p>Outdoor is building the complete sports ecosystem App for the phase 1. Follow, book, co-play — all in one place.</p>
-    </div>
-
-    <div class="wl-stat">
-      <span class="wl-stat-num" id="panel-count">—</span>
-      <span class="wl-stat-label">People already waiting</span>
-    </div>
+<div class="pt" aria-hidden="true">
+  <span class="pt-lane" style="--i:0;--c:#FF4E00"></span><span class="pt-lane" style="--i:1;--c:#F7B300"></span><span class="pt-lane" style="--i:2;--c:#06C27A"></span><span class="pt-lane" style="--i:3;--c:#1EAEFF"></span><span class="pt-lane" style="--i:4;--c:#FF3B3B"></span><span class="pt-lane" style="--i:5;--c:#6C3FC4"></span>
+  <div class="pt-label">
+    <svg class="glyph" viewBox="78 36 302 430"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+    <span class="pt-kicker">NOW ENTERING</span>
+    <span class="pt-dest">WAITLIST</span>
   </div>
+</div>
 
-  <!-- Right: form -->
-  <div class="wl-form-panel">
-    <div class="wl-form-header">
-      <span class="label">Join the waitlist</span>
-      <h2>Get early access</h2>
-      <p>No spam, ever. We respect your inbox.</p>
-    </div>
+<div class="field" aria-hidden="true"></div>
 
-    <form class="wl-form waitlist-form" id="wl-form" novalidate>
-      <div class="wl-input-group">
-        <label for="wl-name">Your name</label>
-        <input type="text" id="wl-name" name="name"
-               placeholder="e.g. Rahul Sharma" autocomplete="name" required>
-      </div>
-      <div class="wl-input-group">
-        <label for="wl-email">Email address</label>
-        <input type="email" id="wl-email" name="email"
-               placeholder="you@example.com" autocomplete="email" required>
-      </div>
-      <button type="submit" class="wl-submit" id="wl-submit">
-        <span class="btn-text">Join the waitlist</span>
-        <span class="wl-arrow" aria-hidden="true">→</span>
+<header class="hdr">
+  <div class="hdr-pane">
+    <a class="brand" href="./" data-cur="HOME" aria-label="Outdoor, home">
+      <svg class="glyph" viewBox="78 36 302 430" aria-hidden="true"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+      <span class="wordmark"><span class="o">O</span>utdoor</span>
+    </a>
+    <nav class="hdr-nav" aria-label="Main" data-cap="-1" style="--cap:0">
+      <span class="hdr-cap" aria-hidden="true"></span>
+      <a href="./">Home</a>
+      <a href="story.html">Story</a>
+    </nav>
+    <div class="hdr-end">
+      <span class="hdr-clock" title="Match minute: how far down the page you are"><span class="live-dot" aria-hidden="true"></span><span class="lbl">MIN</span><span class="min" data-clock>00'</span></span>
+      <button class="theme-btn" type="button" data-theme-toggle data-cur="LIGHT" aria-label="Switch to light theme">
+        <svg class="ic sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg class="ic moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
-      <p class="wl-msg form-msg" id="wl-msg" aria-live="polite" role="status"></p>
-
-    </form>
-
-    <a href="index.html" class="wl-back">
-      ← Back to Outdoor
-    </a>
+      <span data-mag><a class="btn btn-primary btn-nav" href="waitlist.html" data-cta="join" data-cur="JOIN"><span class="cta-full">Join the waitlist</span><span class="cta-short">Join</span></a></span>
+    </div>
   </div>
+</header>
 
+<main id="main">
+  <section class="pass" data-field-zone aria-labelledby="pass-title">
+    <div class="wrap pass-grid">
+      <div class="pass-copy">
+
+        <!-- Before joining -->
+        <div class="pass-state" data-state="form" data-launch="waitlist">
+          <p class="kicker" data-rv="0">Early access</p>
+          <h1 class="pass-title" id="pass-title"><span data-rv="1" data-rvy="60">Join</span> <span data-rv="2" data-rvy="60">the</span> <span data-rv="3" data-rvy="60">waitlist.</span></h1>
+          <p class="pass-lead" data-rv="4">We'll tell you the moment the app is ready. No spam, ever.</p>
+          <form class="pass-form" data-rv="5" data-pass-form novalidate>
+            <label for="p-name">What should we call you?</label>
+            <input class="input" id="p-name" name="name" type="text" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" maxlength="22" placeholder="Your first name" required>
+            <label for="p-email">Email</label>
+            <input class="input" id="p-email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" enterkeyhint="go" maxlength="120" placeholder="you@example.com" required>
+            <div class="hp" aria-hidden="true"><label for="p-company">Company</label><input id="p-company" name="company" type="text" tabindex="-1" autocomplete="off"></div>
+            <button class="btn btn-primary btn-full pass-submit" type="submit" data-cur="JOIN">Join the waitlist</button>
+            <p class="pass-err" data-form-msg role="status" aria-live="polite"></p>
+            <p class="pass-fine">We'll only email you about Outdoor. <a href="privacy.html">Privacy policy</a></p>
+          </form>
+        </div>
+
+        <!-- After joining: swapped in place -->
+        <div class="pass-state" data-state="joined" hidden>
+          <p class="pass-ok" data-rv="0"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-ok-label>You're on the waitlist</span></p>
+          <h1 class="pass-joined" tabindex="-1" data-joined-heading>
+            <span class="pass-name" data-rv="1" data-joined-name>Friend,</span>
+            <span class="pass-in" data-rv="2" data-rvy="40">you're in.</span>
+          </h1>
+          <p class="pass-lead joined" data-rv="3" data-joined-line>You're on the list.</p>
+          <div class="pass-actions" data-rv="4">
+            <span data-mag><a class="btn btn-primary" data-share-whatsapp href="https://wa.me/" target="_blank" rel="noopener">Share on WhatsApp</a></span>
+            <button class="btn btn-outline" type="button" data-share-copy>Copy link</button>
+          </div>
+          <a class="arrow-link" data-rv="5" href="./">Back to the pitch<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+
+        <!-- Launch day: the form gives way to the store link -->
+        <div class="pass-state" data-launch="store" hidden>
+          <p class="kicker">Out now</p>
+          <h1 class="pass-title">Get the app.</h1>
+          <p class="pass-lead">Follow it. Book it. Play it. Together.</p>
+          <span><a class="btn btn-primary btn-big" href="#" data-cta="join">Get the app</a></span>
+        </div>
+      </div>
+
+      <!-- The waitlist card -->
+      <div class="ticket-wrap" data-rv="3" data-rvy="40" data-tilt data-cur="TILT" data-launch="waitlist" aria-hidden="true">
+        <div class="ticket" data-tilt-inner>
+          <span class="ticket-sheen"></span>
+          <div class="ticket-top">
+            <div class="ticket-row">
+              <span class="ticket-brand"><svg class="glyph" viewBox="78 36 302 430"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>WAITLIST</span>
+              <span class="ticket-lbl">EARLY ACCESS</span>
+            </div>
+            <div class="ticket-field">
+              <span class="ticket-lbl">NAME</span>
+              <span class="ticket-name" data-t-name>Your name</span>
+            </div>
+            <div class="ticket-cols">
+              <span class="ticket-field"><span class="ticket-lbl">SPOT</span><b data-t-spot>— —</b></span>
+              <span class="ticket-field"><span class="ticket-lbl">JOINED</span><b data-t-date>— —</b></span>
+              <span class="ticket-field"><span class="ticket-lbl">SPORTS</span><b>ALL</b></span>
+            </div>
+          </div>
+          <div class="ticket-perf"><span></span><span></span><i></i></div>
+          <div class="ticket-bottom">
+            <div class="barcode" data-barcode></div>
+            <span class="ticket-field right"><span class="ticket-lbl">STATUS</span><b class="ticket-status" data-t-status>PREVIEW</b></span>
+          </div>
+          <span class="stamp" data-stamp>ON THE LIST</span>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<script src="js/theme.js"></script>
-<script src="js/waitlist.js"></script>
-<script>
-  // Mirror panel count from main count display
-  document.addEventListener('DOMContentLoaded', function () {
-    const panelCount = document.getElementById('panel-count');
-    // Re-use waitlist.js's refreshCount — it targets .count-num and [id$="-count"]
-    // panel-count ID ends in "-count" so it's auto-updated
-  });
-</script>
+<footer class="ftr">
+  <div class="wrap ftr-in">
+    <p class="ftr-script" data-script>Let's get out humans</p>
+    <div class="ftr-row">
+      <a class="brand" href="./" aria-label="Outdoor, home">
+        <svg class="glyph" viewBox="78 36 302 430" aria-hidden="true"><path d="M145 40H369a6 6 0 0 1 6 6V456a6 6 0 0 1-6 6H145V394A152 152 0 1 0 145 106Z" fill="currentColor"/><circle cx="193" cy="250" r="110" fill="#FF4E00"/></svg>
+        <span class="wordmark"><span class="o">O</span>utdoor</span>
+      </a>
+      <nav class="ftr-nav" aria-label="Footer">
+        <a href="./">Home</a>
+        <a href="story.html">Our story</a>
+        <a href="waitlist.html" aria-current="page" data-cta="join" data-cta-store="Get the app">Waitlist</a>
+      </nav>
+      <span class="ftr-copy">© <span data-year>2026</span> OUTDOOR · MADE IN INDIA</span>
+    </div>
+    <div class="ftr-legal">
+      <nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="delete-account.html">Delete your account</a></nav>
+      <span class="contact"><a data-email href="mailto:team.outdoor.in@gmail.com">team.outdoor.in@gmail.com</a><a data-social="linkedin" href="https://www.linkedin.com/company/theoutdoor/" target="_blank" rel="noopener">LinkedIn ↗</a></span>
+    </div>
+  </div>
+</footer>
 
+<canvas class="confetti" data-confetti aria-hidden="true"></canvas>
 </body>
 </html>
