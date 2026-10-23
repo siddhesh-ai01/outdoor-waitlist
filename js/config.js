@@ -14,7 +14,7 @@ export const CONFIG = {
   storeUrl: '',
 
   siteUrl: 'https://www.theoutdoor.in/',
-  email: 'team.outdoor.in@gmail.com',
+  email: 'team@theoutdoor.in',
 
   /* Socials with a real page. Instagram and YouTube stay hidden until they exist. */
   social: {
