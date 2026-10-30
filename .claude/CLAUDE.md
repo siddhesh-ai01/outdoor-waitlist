@@ -114,8 +114,7 @@ Protocol `Fetch.enable` on `*script.google.com*`, answering with the shapes abov
 
 ## Still to fill in
 
-- `privacy.html`, `terms.html`, `delete-account.html`: the `[Legal name]`,
-  `[Registered address]`, `[City]`, `[Grievance officer name]` and
-  `[Developer name on Google Play]` placeholders (marked `TODO(founder)`).
+- Outdoor isn't registered yet, so the legal pages name no legal entity or address
+  ("Outdoor is based in India"); add them once it is. Grievance officer: Siddhesh.
 - Launch day: set `CONFIG.storeUrl` in `js/config.js` (every Join CTA, the ring text and the
   pass page switch to "Get the app").
